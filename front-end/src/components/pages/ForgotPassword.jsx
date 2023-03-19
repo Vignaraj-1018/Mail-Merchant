@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import * as yup from 'yup'
-import { useSignIn } from 'react-auth-kit';
+// import { useSignIn } from 'react-auth-kit';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -11,6 +11,7 @@ const ForgotPassword = ({setLogged}) => {
   const [pwd2,setPwd2]=useState(null)
   const params=useParams();
   console.log(params)
+  console.log(Object.keys(params).length)
 
   const navigate=useNavigate();
 
@@ -30,8 +31,8 @@ const ForgotPassword = ({setLogged}) => {
     console.log(mail);
   
       let formData={
-        mail:mail
-        
+        mail:mail,
+        url:window.location.href
       }
       const isValid=await data1.isValid(formData);
       console.log(isValid)
@@ -80,9 +81,10 @@ const ForgotPassword = ({setLogged}) => {
           }
           else if (error.response.status==500)
           {
-            alert("Failed to Send Mail")
+            alert("Failed to Change Password")
           }
         });
+        navigate('/login')
     }
     else
     {
@@ -94,7 +96,7 @@ const ForgotPassword = ({setLogged}) => {
     <div className='flex h-[90vh] w-full items-center flex-col'>
       <span className='flex text-4xl text-body font-bold p-10'>Change Password</span>
       <div className='flex border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body px-10'>
-        {!params&&
+        {Object.keys(params).length===0 &&
             <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit1}>
                 <label className='flex text-white font-bold'>Mail</label>
                 <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>
@@ -102,7 +104,7 @@ const ForgotPassword = ({setLogged}) => {
             </form>
         }
 
-        {params&&
+        {Object.keys(params).length!==0&&
             <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit2}>
                 <label className='flex text-white font-bold'>New Password</label>
                 <input type={'password'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd1(e.target.value)}}/>

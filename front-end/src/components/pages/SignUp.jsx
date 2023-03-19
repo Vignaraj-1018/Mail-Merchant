@@ -1,8 +1,9 @@
 import React,{useState} from 'react'
 import * as yup from 'yup'
-import { useSignIn } from 'react-auth-kit';
+// import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const SignUp = ({setLogged}) => {
   const [mail,setMail]=useState(null)
@@ -10,7 +11,7 @@ const SignUp = ({setLogged}) => {
   const [pwd,setPwd]=useState(null)
   const [id,setId]=useState(null)
 
-  const signIn=useSignIn();
+  // const signIn=useSignIn();
   const navigate=useNavigate();
 
   const data=yup.object().shape({
@@ -40,12 +41,13 @@ const SignUp = ({setLogged}) => {
         console.log("loggedin");
         if(id){
           console.log(id)
-          signIn({
-          token:id,
-          expiresIn:'3600',
-          tokenType:'Bearer',
-          authState:formData,
-          })
+          // signIn({
+          // token:id,
+          // expiresIn:'3600',
+          // tokenType:'Bearer',
+          // authState:formData,
+          // })
+          Cookies.set('userid',id)
           setLogged(true)
           navigate('/');
         }

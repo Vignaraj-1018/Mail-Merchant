@@ -87,14 +87,15 @@ def user(userid):
 @app.route("/forgot-password",methods=["POST"])
 def pre_forgot_password():
     data=request.get_json()
-    print(data)
+    print(data['url'])
+    url=data['url']
     user=mycol.find_one({'mail':(data['mail'])})
 
     if not user:
         return {"success":False,"msg":"Invalid Credential, User Not Found","status_code":401},401
     print(user)
     mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','sub':'Change Password',
-          'msg':'Link the Link to Continue to Changing the Password: https://google.com/{}'.format(str(user['_id']))}
+          'msg':'Link the Link to Continue to Changing the Password: {}/{}'.format(url,str(user['_id']))}  
     resp=send_mail(mail,user=user['mail'])
     if resp:
         return "Success"

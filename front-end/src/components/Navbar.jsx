@@ -4,15 +4,17 @@ import logo from '../assets/logo.png'
 import { navLinks } from '../constants'
 import { UilUser } from '@iconscout/react-unicons'
 import { Link,useNavigate } from 'react-router-dom'
-import { useSignOut } from 'react-auth-kit';
+// import { useSignOut } from 'react-auth-kit';
+import Cookies from 'js-cookie'
 
 const Navbar = ({logged,setLogged,cookie}) => {
 
-    const signOut=useSignOut();
+    // const signOut=useSignOut();
     const navigate=useNavigate();
     
     const logOut=()=>{
-        signOut();
+        // signOut();
+        Cookies.remove('userid')
         setLogged(false);
         navigate('/login');
     }
@@ -35,7 +37,7 @@ const Navbar = ({logged,setLogged,cookie}) => {
                 }
                 {logged && 
                     <>
-                        <Link to={`/user/${cookie.user}`}><UilUser/></Link>
+                        <Link to={`/user/${cookie.userid}`}><UilUser/></Link>
                         <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut}>Sign Out</Button>
                     </>
                 }

@@ -10,8 +10,8 @@ function App() {
 
   useEffect(()=>{
     let ck=Cookies.get()
-    // console.log(ck);
-    if (ck.user)
+    console.log('ck',ck);
+    if (ck.userid)
     {
       setCookie(ck)
       console.log(ck);
@@ -35,11 +35,11 @@ function App() {
           <Route path='/login' element={<LogIn setLogged={setLogged}/>}/>
           <Route path='/signup' element={<SignUp setLogged={setLogged}/>}/>
           <Route path='/user/:userid' element={<UserProf/>}/>
-          <Route path='/forgotpassword' element={<ForgotPassword/>}/>
-          <Route path='/forgotpassword/:userid' element={<ForgotPassword/>}/>
+          <Route path='/forgot-password' element={<ForgotPassword/>}/>
+          <Route path='/forgot-password/:userid' element={<ForgotPassword/>}/>
         </Routes>
       </div>
-      <Footer className='flex min-h-screen'/>
+      <Footer className='flex'/>
     </div>
   )
 }
