@@ -82,6 +82,23 @@ def user(userid):
     user["_id"] = str(user["_id"])
     
     return user
+
+@cross_origin(supports_credentials=True)
+@app.route("/forgot-password",methods=["POST"])
+def forgot_password():
+    data=request.get_json()
+    print(data)
+    user=mycol.find_one({'mail':(data['mail'])})
+
+    if not user:
+        return {"success":False,"msg":"Invalid Credential, User Not Found","status_code":401},401
+    print(user)
+    mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','sub':'Change Password',
+          'msg':'Link the Link to Continue to Changing the Password: https://google.com/{}'.format(str(user['_id']))}
+    resp=send_mail(mail,user=user['mail'])
+    if resp:
+        return "Success"
+    return "Failure",500 
      
 
 app.run(debug=True,host='0.0.0.0',port=8080)
