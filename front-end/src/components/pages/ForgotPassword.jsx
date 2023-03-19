@@ -39,7 +39,7 @@ const ForgotPassword = ({setLogged}) => {
       if (isValid)
       {
         console.log(formData)
-        axios.post('https://mail-merchant.onrender.com/forgotpassword',formData)
+        axios.post('https://mail-merchant.onrender.com/forgot-password',formData)
         .then((response) => {console.log(response.data)})
         .catch((error) => {
           console.log('err',error);
@@ -54,18 +54,66 @@ const ForgotPassword = ({setLogged}) => {
         });
     }
   }
+  const handleSubmit2=async (e) => {
+    e.preventDefault()
+    console.log(mail);
+  
+      let formData={
+        pwd1:pwd1,
+        pwd2:pwd2
+      }
+      const isValid=await data2.isValid(formData);
+      console.log(isValid)
+      console.log(formData)
+      if (isValid && formData['pwd1']===formData['pwd2'])
+      {
+        console.log(formData)
+        formData={pwd:formData['pwd1']}
+        console.log(formData)
+        axios.post(`https://mail-merchant.onrender.com/forgot-password/${params['userid']}`,formData)
+        .then((response) => {console.log(response.data)})
+        .catch((error) => {
+          console.log('err',error);
+          if (error.response.status==401)
+          {
+            alert("Invalid User")
+          }
+          else if (error.response.status==500)
+          {
+            alert("Failed to Send Mail")
+          }
+        });
+    }
+    else
+    {
+        alert("Invalid Input")
+    }
+  }
 
   return (
     <div className='flex h-[90vh] w-full items-center flex-col'>
       <span className='flex text-4xl text-body font-bold p-10'>Change Password</span>
       <div className='flex border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body px-10'>
-        <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit1}>
-          <label className='flex text-white font-bold'>Mail</label>
-          <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>
-          <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Send</button>
-        </form>
+        {!params&&
+            <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit1}>
+                <label className='flex text-white font-bold'>Mail</label>
+                <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>
+                <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Send</button>
+            </form>
+        }
+
+        {params&&
+            <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit2}>
+                <label className='flex text-white font-bold'>New Password</label>
+                <input type={'password'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd1(e.target.value)}}/>
+                <label className='flex text-white font-bold'>Confirm Password</label>
+                <input type={'password'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd2(e.target.value)}}/>
+                <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Change Password</button>
+            </form>
+        }
+
       </div>
-      <span className='flex p-10 text-2xl'>Check Your Inbox for Check Password Link!</span>
+      {!params&&<span className='flex p-10 text-2xl'>Check Your Inbox for Check Password Link!</span>}
     </div>
   )
 }
