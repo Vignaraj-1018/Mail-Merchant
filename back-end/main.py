@@ -85,7 +85,7 @@ def user(userid):
 
 @cross_origin(supports_credentials=True)
 @app.route("/forgot-password",methods=["POST"])
-def forgot_password():
+def pre_forgot_password():
     data=request.get_json()
     print(data)
     user=mycol.find_one({'mail':(data['mail'])})
@@ -99,6 +99,21 @@ def forgot_password():
     if resp:
         return "Success"
     return "Failure",500 
-     
+
+@cross_origin(supports_credentials=True)
+@app.route("/forgot-password/<userid>",methods=["POST"])
+def post_forgot_password(userid):
+    print(userid)
+    data=request.get_json()
+    print(data)
+    filter = {"_id": ObjectId(userid)}
+    update = {"$set":{"password":data['pwd']}} 
+    print(update)
+    res=mycol.update_one(filter,update)
+    print(res.matched_count,res.modified_count)
+    if res.matched_count==0:
+        return {"success":False,"msg":"Invalid Credential, User Not Found","status_code":401},401
+
+    return "Success"
 
 app.run(debug=True,host='0.0.0.0',port=8080)
