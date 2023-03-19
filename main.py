@@ -26,7 +26,7 @@ def signup():
     data=request.get_json()
     user=mycol.find_one({'mail':data['mail']})
     if user:
-        return "User Already Exist",409
+        return {"success":False,"msg":"User Already Exist","status_code":409},409
     else:
         res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['pwd'],'services':[]})
 
@@ -38,9 +38,9 @@ def login():
     data=request.get_json()
     user=mycol.find_one({'mail':data['mail'], 'password':data['pwd']})
     if user:
-        return {'id':str(user['_id'])},201
+        return {'id':str(user['_id'])}
     else:
-        return "Login failed",401
+        return {"success":False,"msg":"Login Failed","status_code":401},401
 
 @cross_origin(supports_credentials=True)
 @app.route("/sendmail/<userid>",methods=['POST'])
@@ -49,7 +49,7 @@ def sendmail(userid):
     user=mycol.find_one({'_id':ObjectId(userid)})
     # print('user: ',user)
     if not user:
-        return "Failed to send",401
+        return {"success":False,"msg":"Invalid Credential, User Not Found","status_code":401},401
     # print(user['mail'])
     resp=send_mail(request.get_json(),user=user['mail'])
     filter = {"_id": ObjectId(userid)}
@@ -58,9 +58,9 @@ def sendmail(userid):
     # print('Mail: ',resp,"update",update)
     result = mycol.update_one(filter, update)
     if result:
-        return 'Success',201
+        return {"success":True,"msg":"Mail Sent Successfully","status_code":201},201
     else:
-        return 'Failure',500
+        return {"success":False,"msg":"Faied to send Mail","status_code":500},500
 
 @cross_origin(supports_credentials=True)
 @app.route("/users",methods=['GET'])
@@ -72,7 +72,7 @@ def users():
         documents.append(document)
     json_string= json.dumps(documents, default=json_util.default)
     # print('Output',json_string)
-    return json_string,201
+    return json_string
 
 @cross_origin(supports_credentials=True)
 @app.route("/user/<userid>",methods=['GET', 'POST'])
@@ -81,7 +81,7 @@ def user(userid):
     # print('user: ',user)
     user["_id"] = str(user["_id"])
     
-    return user,201
-    
+    return user
+     
 
 app.run(debug=True,host='0.0.0.0',port=8080)
