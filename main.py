@@ -1,20 +1,26 @@
 import json
 from flask import Flask,request
+from flask_cors import CORS, cross_origin
 from mail import *
-app = Flask(__name__)
 
 import pymongo
 from bson.objectid import ObjectId
 from bson import json_util
 
+app = Flask(__name__)
+CORS(app, support_credentials=True)
+
+
 client = pymongo.MongoClient("mongodb+srv://mailmerchant1018:MailMerchant1018@mailmerchant.pkmhkhu.mongodb.net/?retryWrites=true&w=majority")
 db = client['Users']
 mycol=db['user_details']
 
+@cross_origin(supports_credentials=True)
 @app.route("/")
 def hello_world():
     return "Hello, World!"
 
+@cross_origin(supports_credentials=True)
 @app.route("/signup",methods=["POST"])
 def signup():
     data=request.get_json()
@@ -26,6 +32,7 @@ def signup():
 
     return {'id':str(res.inserted_id)},201
 
+@cross_origin(supports_credentials=True)
 @app.route("/login",methods=["POST"])
 def login():
     data=request.get_json()
@@ -35,6 +42,7 @@ def login():
     else:
         return "Login failed",401
 
+@cross_origin(supports_credentials=True)
 @app.route("/sendmail/<userid>",methods=['POST'])
 def sendmail(userid):
     # print("Sendmail, ",userid)
@@ -54,6 +62,7 @@ def sendmail(userid):
     else:
         return 'Failure',500
 
+@cross_origin(supports_credentials=True)
 @app.route("/users",methods=['GET'])
 def users():
     users=mycol.find({})
@@ -65,6 +74,7 @@ def users():
     # print('Output',json_string)
     return json_string,201
 
+@cross_origin(supports_credentials=True)
 @app.route("/user/<userid>",methods=['GET', 'POST'])
 def user(userid):
     user=mycol.find_one({'_id':ObjectId(userid)})
