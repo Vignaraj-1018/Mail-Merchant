@@ -19,7 +19,7 @@ const LogIn = ({setLogged}) => {
     pwd:yup.string().required()
   })
 
-  const handleSubmit=async (e) => {
+  const handleSubmit= (e) => {
     e.preventDefault()
     console.log(mail,pwd);
   
@@ -27,7 +27,7 @@ const LogIn = ({setLogged}) => {
         mail:mail,
         pwd:pwd
       }
-      const isValid=await data.isValid(formData);
+      const isValid= data.isValid(formData);
       console.log(isValid)
       console.log(formData)
       if (isValid)
