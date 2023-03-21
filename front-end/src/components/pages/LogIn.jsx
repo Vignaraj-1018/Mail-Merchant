@@ -73,7 +73,7 @@ const LogIn = ({setLogged}) => {
   // console.log("loading...",loading);
 
   return (
-    <div className='flex h-[90vh] w-full justify-center items-center flex-col'>
+    <div className='flex w-full justify-center items-center flex-col p-3'>
       <span className='flex text-4xl text-body font-bold p-10'>Log In</span>
       {!loading&&<div className='flex border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body px-10'>
         <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit}>
