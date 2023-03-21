@@ -27,7 +27,7 @@ const Navbar = ({logged,setLogged,cookie}) => {
         <div className='flex'>
             <ul className='flex flex-row text-white font-bold text-xl items-center gap-7'>
                 {navLinks.map((item)=>(
-                    <Link to={item.link}><li key={item.id} className='flex px-7 hover:text-body hover:cursor-pointer'>{item.title}</li></Link>
+                    <Link to={item.link} key={item.id}><li className='flex px-7 hover:text-body hover:cursor-pointer'>{item.title}</li></Link>
                 ))}
                 {!logged && 
                     <div className='flex gap-7 items-center'>
@@ -37,7 +37,7 @@ const Navbar = ({logged,setLogged,cookie}) => {
                 }
                 {logged && 
                     <>
-                        <Link to={`/user/${cookie.userid}`}><UilUser/></Link>
+                        <Link to={`/user/${cookie?.userid}`}><UilUser/></Link>
                         <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut}>Sign Out</Button>
                     </>
                 }

@@ -10,14 +10,14 @@ function App() {
 
   useEffect(()=>{
     let ck=Cookies.get()
-    console.log('ck',ck);
+    // console.log('ck',ck);
     if (ck.userid)
     {
       setCookie(ck)
-      console.log(ck);
+      // console.log(ck);
       setLogged(true);
-      console.log("Cookie Available")
-      console.log(cookie);
+      // console.log("Cookie Available")
+      // console.log(cookie);
     }
   },[]);
 

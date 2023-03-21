@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 const UserProf = () => {
     const params = useParams()
-    console.log(params)
+    // console.log(params)
 
     const [user,setUser]=useState(null);
     useEffect(()=>{
@@ -12,7 +12,7 @@ const UserProf = () => {
       .catch(err =>{console.log(err)});
     },[])
 
-    console.log(user)
+    // console.log(user)
   return (
     <div className='flex flex-col w-full justify-center items-center p-10'>
       <span className='flex text-3xl text-body'>Welcome, {user?.name.charAt(0).toUpperCase()}{user?.name.slice(1)}</span>
