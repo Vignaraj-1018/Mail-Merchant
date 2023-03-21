@@ -40,7 +40,7 @@ const Navbar = ({logged,setLogged,cookie}) => {
                 }
                 {logged && 
                     <>
-                        <Link to={`/user/${cookie?.userid}`}><UilUser/></Link>
+                        <a href={`/user/${cookie?.userid}`}><UilUser/></a>
                         <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut}>Sign Out</Button>
                     </>
                 }
@@ -66,7 +66,7 @@ const Navbar = ({logged,setLogged,cookie}) => {
                     }
                     {logged && 
                         <>
-                            <Link to={`/user/${cookie?.userid}`} onClick={()=>{setToggle(false)}}><UilUser/></Link>
+                            <a href={`/user/${cookie?.userid}`} onClick={()=>{setToggle(false)}}><UilUser/></a>
                             <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut} >Sign Out</Button>
                         </>
                     }

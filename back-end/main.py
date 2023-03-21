@@ -53,8 +53,8 @@ def sendmail(userid):
     # print(user['mail'])
     resp=send_mail(request.get_json(),user=user['mail'])
     filter = {"_id": ObjectId(userid)}
-    update = {"$push": {"services": {"From":resp['From'],"To":resp['To'],"name":request.get_json()['name'],"Subject":resp['Subject'],"msg":resp.get_content()}}}
-
+    update = {"$push": {"services": {"From":resp['From'],"To":resp['To'],"name":request.get_json()['name'],"Subject":resp['Subject'],"msg":request.get_json()['msg']}}}
+    print(update)
     # print('Mail: ',resp,"update",update)
     result = mycol.update_one(filter, update)
     if result:
