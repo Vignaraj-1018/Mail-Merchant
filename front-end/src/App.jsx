@@ -26,7 +26,7 @@ function App() {
       <div className='flex fixed w-full'> 
         <Navbar className='flex' logged={logged} setLogged={setLogged} cookie={cookie}/>
       </div>
-      <div className='flex text-white my-20 px-5'>
+      <div className='flex text-white mt-20 px-5'>
         <Routes>
           <Route path='/' element={<Home cookie={cookie}/>}/>
           <Route path='/about' element={<About/>}/>
