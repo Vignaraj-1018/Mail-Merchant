@@ -51,6 +51,10 @@ const LogIn = ({setLogged}) => {
           {
             alert("Invalid login")
           }
+          if (error.response.status==403)
+          {
+            alert("Wrong password")
+          }
           setLoading(false)
         });
         

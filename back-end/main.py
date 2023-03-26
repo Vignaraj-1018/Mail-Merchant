@@ -42,9 +42,13 @@ def signup():
 def login():
     data=request.get_json()
     user=mycol.find_one({'mail':data['mail']})
-    if user and bcrypt.checkpw(data['pwd'].encode('utf-8'), user['password']):
+    if user:
+        if bcrypt.checkpw(data['pwd'].encode('utf-8'), user['password']):
         # print('Password is correct')
-        return {'id':str(user['_id'])}
+            return {'id':str(user['_id'])}
+        else:
+            return {"success":False,"msg":"Wrong Password","status_code":403},403
+            
     else:
         return {"success":False,"msg":"Login Failed","status_code":401},401
 
