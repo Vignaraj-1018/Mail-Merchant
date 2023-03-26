@@ -75,7 +75,7 @@ const SignUp = ({setLogged}) => {
   return (
     <div className='flex w-full justify-center items-center flex-col'>
       <span className='flex text-4xl text-body font-bold p-10'>Sign Up</span>
-      {!loading&&<div className='flex border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body px-10'>
+      {!loading&&<div className='flex border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body mx-2 sm:px-10'>
         <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit}>
           <label className='flex text-white font-bold'>Mail</label>
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>

@@ -3,6 +3,8 @@ from flask import Flask,request
 from flask_cors import CORS, cross_origin
 from mail import *
 
+import bcrypt
+
 import pymongo
 from bson.objectid import ObjectId
 from bson import json_util
@@ -24,6 +26,9 @@ def hello_world():
 @app.route("/signup",methods=["POST"])
 def signup():
     data=request.get_json()
+    # print(data['pwd'])
+    data['pwd'] = bcrypt.hashpw(data['pwd'].encode('utf-8'), bcrypt.gensalt())
+    # print(data['pwd']) 
     user=mycol.find_one({'mail':data['mail']})
     if user:
         return {"success":False,"msg":"User Already Exist","status_code":409},409
@@ -36,8 +41,9 @@ def signup():
 @app.route("/login",methods=["POST"])
 def login():
     data=request.get_json()
-    user=mycol.find_one({'mail':data['mail'], 'password':data['pwd']})
-    if user:
+    user=mycol.find_one({'mail':data['mail']})
+    if user and bcrypt.checkpw(data['pwd'].encode('utf-8'), user['password']):
+        # print('Password is correct')
         return {'id':str(user['_id'])}
     else:
         return {"success":False,"msg":"Login Failed","status_code":401},401
@@ -69,6 +75,7 @@ def users():
     documents=[]
     for document in users:
         document["_id"] = str(document["_id"])
+        document["password"] = str(document["password"])
         documents.append(document)
     json_string= json.dumps(documents, default=json_util.default)
     # print('Output',json_string)
@@ -80,8 +87,10 @@ def user(userid):
     user=mycol.find_one({'_id':ObjectId(userid)})
     # print('user: ',user)
     user["_id"] = str(user["_id"])
+    user["password"] = str(user["password"]) 
+    print(user)
     
-    return user
+    return user 
 
 @cross_origin(supports_credentials=True)
 @app.route("/forgot-password",methods=["POST"])
@@ -107,6 +116,7 @@ def post_forgot_password(userid):
     print(userid)
     data=request.get_json()
     print(data)
+    data['pwd'] = bcrypt.hashpw(data['pwd'].encode('utf-8'), bcrypt.gensalt())
     filter = {"_id": ObjectId(userid)}
     update = {"$set":{"password":data['pwd']}} 
     print(update)

@@ -25,7 +25,7 @@ const Navbar = ({logged,setLogged,cookie}) => {
     
 
   return (
-    <div className='flex w-full h-20 px-10 bg-header justify-between items-center'>
+    <div className='flex w-full h-20 px-10 bg-header justify-between items-center z-10'>
         <Link to={'/'}><img src={logo} className='flex h-14 w-60 hover:cursor-pointer'/></Link>
         <div className='sm:flex hidden'>
             <ul className='flex flex-row text-white font-bold text-xl items-center gap-7'>

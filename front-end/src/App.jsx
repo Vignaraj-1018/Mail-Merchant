@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { About, Contact, Docs, Footer, ForgotPassword, Home, LogIn, Navbar, SignUp, UserProf } from './components'
+import { Contact, Docs, Footer, ForgotPassword, Home, LogIn, Navbar, NotFound, SignUp, UserProf } from './components'
 import Cookies from 'js-cookie'
 
 function App() {
@@ -23,13 +23,12 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen bg-header overflow-y-auto justify-between">
-      <div className='flex fixed w-full'> 
+      <div className='flex fixed w-full z-20'> 
         <Navbar className='flex' logged={logged} setLogged={setLogged} cookie={cookie}/>
       </div>
       <div className='flex text-white mt-20 px-5'>
         <Routes>
-          <Route path='/' element={<Home cookie={cookie}/>}/>
-          <Route path='/about' element={<About/>}/>
+          <Route path='/' element={<Home/>}/>
           <Route path='/docs' element={<Docs/>}/>
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/login' element={<LogIn setLogged={setLogged}/>}/>
@@ -37,6 +36,7 @@ function App() {
           <Route path='/user/:userid' element={<UserProf/>}/>
           <Route path='/forgot-password' element={<ForgotPassword/>}/>
           <Route path='/forgot-password/:userid' element={<ForgotPassword/>}/>
+          <Route path='/*' element={<NotFound/>}/>
         </Routes>
       </div>
       <Footer className='flex'/>
