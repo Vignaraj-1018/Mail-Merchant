@@ -37,7 +37,7 @@ const UserProf = () => {
                   <UilCopy color='#ffffff' className='flex h-8 w-8' onClick={handleCopy} />
                 </div>
               </div>
-              <span className='flex text-lg text-gray-400 p-5' id='link'>https://mail-merchant.onrender.com/sendmail/{user._id}</span>
+              <span className='flex text-lg text-gray-400 p-5 w-full truncate' id='link'>https://mail-merchant.onrender.com/sendmail/{user._id}</span>
               <span className='flex text-sm text-white justify-center'><a href='/docs'>Check Docs to Know how it Works! </a></span>
             </div>
           </div>
