@@ -34,7 +34,7 @@ const Contact = () => {
     if (isValid)
     {
       setLoading(true)
-      axios.post('https://mail-merchant.onrender.com/sendmail/6416b0e207ae34ed007d1018',formData)
+      axios.post('https://mail-merchant.onrender.com/sendmail/6420a0c43d4f1c6468b93e39',formData)
       .then((response) => {
         console.log(response.data);
         setLoading(false)
