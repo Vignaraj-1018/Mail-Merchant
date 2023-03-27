@@ -34,7 +34,7 @@ const Docs = () => {
       <div className='flex flex-col w-5/6 p-3 sm:ml-10'>
         <span className='flex text-4xl text-body font-bold p-10 w-full justify-center'>Mail Merchant Documentation</span>
 
-        <section id='intro' className='flex flex-col gap-7 py-10 font-semibold sm:w-[75%] text-justify leading-8'>
+        <section id='intro' className='flex flex-col gap-7 py-10 font-semibold sm:w-[90%] text-justify leading-8'>
           <span className='flex text-xl font-bold text-body'>Hello and welcome to Mail Merchant!</span>
           <span>
             The all-in-one <span className='text-body'>unlimited email sending service</span> that can help you manage and send emails from your website contact forms straight to your inbox. With Mail Merchant, you don't have to worry about managing your own email server or dealing with spam filters - <span className='text-body'>we take care of everything for you.</span>
@@ -52,7 +52,7 @@ const Docs = () => {
             So why wait? <a href='/signup' className='text-body'>Sign up</a> for Mail Merchant today and start sending emails from your website with confidence.
           </span>
         </section>
-        <section id='started' className='flex flex-col gap-7 py-10 font-semibold sm:w-[75%] text-justify leading-8'>
+        <section id='started' className='flex flex-col gap-7 py-10 font-semibold sm:w-[90%] text-justify leading-8'>
           <span className='flex text-xl font-bold text-body'>Getting Started With Mail Merchant</span>
           <span>
             Ready to get started with Mail Merchant and start sending emails from your website's contact forms? Great! Here's a quick guide to help you get set up:
@@ -70,14 +70,14 @@ const Docs = () => {
             <span className='text-body'>Step 4:</span> To manage your emails, simply log in to your Mail Merchant account and view your email inbox. From here, you can read, respond to, and manage your messages with ease.
           </span>
         </section>
-        <section id='endpoints' className='flex flex-col gap-7 py-10 font-semibold sm:w-[75%] text-justify leading-8'>
+        <section id='endpoints' className='flex flex-col gap-7 py-10 font-semibold sm:w-[90%] text-justify leading-8'>
           <span className='flex text-xl font-bold text-body'>Endpoint of Mail Merchant</span>
           <SyntaxHighlighter language="python" style={vscDarkPlus}>
             {exampleCode}
           </SyntaxHighlighter>
 
         </section>
-        <section id='eg' className='flex flex-col gap-7 py-10 font-semibold sm:w-[75%] text-justify leading-8'>
+        <section id='eg' className='flex flex-col gap-7 py-10 font-semibold sm:w-[90%] text-justify leading-8'>
           <span className='flex text-xl font-bold text-body'>Examples in various Frameworks:</span>
           <span className='flex text-xl font-bold text-body'>ReactJS:</span>
           <SyntaxHighlighter language="jsx" style={vscDarkPlus}>

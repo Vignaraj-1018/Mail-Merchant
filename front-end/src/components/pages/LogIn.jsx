@@ -5,12 +5,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import {PropagateLoader} from 'react-spinners'
+import { UilEye } from '@iconscout/react-unicons'
+
 
 const LogIn = ({setLogged}) => {
 
   const [mail,setMail]=useState(null)
   const [pwd,setPwd]=useState(null)
   // const [id,setId]=useState(null)
+  const [pwdvisibility,setPwdVisibility]=useState(false)
 
   const [loading, setLoading]=useState(false)
 
@@ -84,7 +87,10 @@ const LogIn = ({setLogged}) => {
           <label className='flex text-white font-bold'>Mail</label>
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>
           <label className='flex text-white font-bold'>Password</label>
-          <input type={'password'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd(e.target.value)}}/>
+          <div className='flex flex-row justify-end items-center'>
+            <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd(e.target.value)}}/>
+            <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
+          </div>
           <Link to={'/forgot-password'} className='flex hover:text-body'>Forgot Password?</Link>
           <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>LogIn</button>
         </form>

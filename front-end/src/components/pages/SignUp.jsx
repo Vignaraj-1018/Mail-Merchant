@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { PropagateLoader } from 'react-spinners';
+import { UilEye } from '@iconscout/react-unicons'
 
 const SignUp = ({setLogged}) => {
   const [mail,setMail]=useState(null)
   const [name,setName]=useState(null)
   const [pwd,setPwd]=useState(null)
-  const [id,setId]=useState(null)
+  const [pwd2,setPwd2]=useState(null)
+  const [pwdvisibility,setPwdVisibility]=useState(false)
 
   const [loading,setLoading]=useState(false)
 
@@ -30,17 +32,18 @@ const SignUp = ({setLogged}) => {
       let formData={
         mail:mail,
         name:name,
-        pwd:pwd
+        pwd:pwd,
+        pwd2:pwd
       }
       const isValid=await data.isValid(formData);
       // console.log(isValid)
       // console.log(formData)
-      if (isValid)
+      if (isValid && pwd === pwd2)
       {
         setLoading(true)
         axios.post('https://mail-merchant.onrender.com/signup',formData)
         .then((response) => {
-          setId(response.data.id);
+          // setId(response.data.id);
           // console.log(id);
           setLoading(false)
           Cookies.set('userid',response.data.id)
@@ -70,6 +73,10 @@ const SignUp = ({setLogged}) => {
           // navigate('/');
         // }
     }
+    else if(pwd!==pwd2)
+    {
+      alert("Check your password, Mismatched!")
+    }
   }
 
   return (
@@ -77,12 +84,21 @@ const SignUp = ({setLogged}) => {
       <span className='flex text-4xl text-body font-bold p-10'>Sign Up</span>
       {!loading&&<div className='flex border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body mx-2 sm:px-10'>
         <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit}>
-          <label className='flex text-white font-bold'>Mail</label>
-          <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>
           <label className='flex text-white font-bold'>Name</label>
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setName(e.target.value)}}/>
+          <label className='flex text-white font-bold'>Mail</label>
+          <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>
           <label className='flex text-white font-bold'>Password</label>
-          <input type={'password'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd(e.target.value)}}/>
+          <div className='flex flex-row justify-end items-center'>
+            <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd(e.target.value)}}/>
+            <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
+          </div>
+          <label className='flex text-white font-bold'>Confirm Password</label>
+          <div className='flex flex-row justify-end items-center'>
+            <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd2(e.target.value)}}/>
+            <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
+          </div>
+
           <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Sign Up</button>
         </form>
       </div>}
