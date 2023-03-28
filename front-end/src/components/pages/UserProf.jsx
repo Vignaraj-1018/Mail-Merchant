@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import {PropagateLoader} from 'react-spinners'
 import { UilArrow,UilCopy } from '@iconscout/react-unicons'
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const UserProf = () => {
     const params = useParams()
-    // console.log(params)
-
     const [loading,setLoading]=useState(true)
 
     const [user,setUser]=useState(null);
@@ -16,10 +16,23 @@ const UserProf = () => {
       .then(response =>{setUser(response.data);setLoading(false)})
       .catch(err =>{console.log(err)});
     },[])
-
+    const customStyle = {
+      backgroundColor:"#FF6E31"
+    };
     const handleCopy=() => {
       let text=`https://mail-merchant.onrender.com/sendmail/${user._id}`
       navigator.clipboard.writeText(text)
+      toast.success('Code Copied!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        progressStyle: customStyle,
+        });
     }
 
     console.log(user)
@@ -61,6 +74,7 @@ const UserProf = () => {
           <PropagateLoader color='#ffffff'/>
         </div>
       }
+      <ToastContainer />
     </div>
   )
 }
