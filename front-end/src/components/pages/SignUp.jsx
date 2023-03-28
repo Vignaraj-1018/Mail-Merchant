@@ -10,8 +10,8 @@ import { UilEye } from '@iconscout/react-unicons'
 const SignUp = ({setLogged}) => {
   const [mail,setMail]=useState(null)
   const [name,setName]=useState(null)
-  const [pwd,setPwd]=useState(null)
-  const [pwd2,setPwd2]=useState(null)
+  const [password,setPassword]=useState(null)
+  const [password2,setPassword2]=useState(null)
   const [pwdvisibility,setPwdVisibility]=useState(false)
 
   const [loading,setLoading]=useState(false)
@@ -22,7 +22,7 @@ const SignUp = ({setLogged}) => {
   const data=yup.object().shape({
     mail:yup.string().email().required(),
     name:yup.string().required(),
-    pwd:yup.string().required()
+    password:yup.string().required()
   })
 
   const handleSubmit=async (e) => {
@@ -32,13 +32,13 @@ const SignUp = ({setLogged}) => {
       let formData={
         mail:mail,
         name:name,
-        pwd:pwd,
-        pwd2:pwd
+        password:password,
+        password2:password
       }
       const isValid=await data.isValid(formData);
       // console.log(isValid)
       // console.log(formData)
-      if (isValid && pwd === pwd2)
+      if (isValid && password === password2)
       {
         setLoading(true)
         axios.post('https://mail-merchant.onrender.com/signup',formData)
@@ -73,7 +73,7 @@ const SignUp = ({setLogged}) => {
           // navigate('/');
         // }
     }
-    else if(pwd!==pwd2)
+    else if(password!==password2)
     {
       alert("Check your password, Mismatched!")
     }
@@ -90,12 +90,12 @@ const SignUp = ({setLogged}) => {
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>
           <label className='flex text-white font-bold'>Password</label>
           <div className='flex flex-row justify-end items-center'>
-            <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd(e.target.value)}}/>
+            <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPassword(e.target.value)}}/>
             <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
           </div>
           <label className='flex text-white font-bold'>Confirm Password</label>
           <div className='flex flex-row justify-end items-center'>
-            <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd2(e.target.value)}}/>
+            <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPassword2(e.target.value)}}/>
             <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
           </div>
 

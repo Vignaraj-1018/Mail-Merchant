@@ -49,11 +49,24 @@
 # finally:
 #     TIE_server.quit()
 
-import pymongo
-client = pymongo.MongoClient("mongodb+srv://mailmerchant1018:MailMerchant1018@mailmerchant.pkmhkhu.mongodb.net/?retryWrites=true&w=majority")
-db = client['Users']
-mycol=db['user_details']
-# coll=db.user_details
-print(mycol)
-result = mycol.insert_one({'name': 'John Doe'})
-print(result.inserted_id)
+# import pymongo
+# client = pymongo.MongoClient("mongodb+srv://mailmerchant1018:MailMerchant1018@mailmerchant.pkmhkhu.mongodb.net/?retryWrites=true&w=majority")
+# db = client['Users']
+# mycol=db['user_details']
+# # coll=db.user_details
+# print(mycol)
+# result = mycol.insert_one({'name': 'John Doe'})
+# print(result.inserted_id)
+
+import requests
+  
+url = "https://mail-merchant.onrender.com/sendmail/6420a0373d4f1c6468b93e38"
+data = {
+    "name": "John Smith",
+    "mail": "john.smith@example.com",
+    "sub": "Inquiry",
+    "msg": "Hello, I am interested in your services."
+}
+response = requests.post(url, data=data)
+
+print(response.json()) 

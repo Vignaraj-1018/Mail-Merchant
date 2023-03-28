@@ -3,12 +3,19 @@ import * as yup from 'yup'
 // import { useSignIn } from 'react-auth-kit';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import {PropagateLoader} from 'react-spinners'
+import { UilEye } from '@iconscout/react-unicons'
+
+
 
 const ForgotPassword = ({setLogged}) => {
 
   const [mail,setMail]=useState(null)
-  const [pwd1,setPwd1]=useState(null)
-  const [pwd2,setPwd2]=useState(null)
+  const [password1,setPassword1]=useState(null)
+  const [password2,setPassword2]=useState(null)
+  const [loading,setLoading]=useState(false)
+  const [pwdvisibility,setPwdVisibility]=useState(false)
+
   const params=useParams();
   console.log(params)
   console.log(Object.keys(params).length)
@@ -21,8 +28,8 @@ const ForgotPassword = ({setLogged}) => {
   })
 
   const data2=yup.object().shape({
-    pwd1:yup.string().required(),
-    pwd2:yup.string().required()
+    password1:yup.string().required(),
+    password2:yup.string().required()
     
   })
 
@@ -39,9 +46,10 @@ const ForgotPassword = ({setLogged}) => {
       console.log(formData)
       if (isValid)
       {
-        console.log(formData)
+        // console.log(formData)
+        setLoading(true);
         axios.post('https://mail-merchant.onrender.com/forgot-password',formData)
-        .then((response) => {console.log(response.data)})
+        .then((response) => {console.log(response.data); setLoading(false);})
         .catch((error) => {
           console.log('err',error);
           if (error.response.status==401)
@@ -60,19 +68,20 @@ const ForgotPassword = ({setLogged}) => {
     console.log(mail);
   
       let formData={
-        pwd1:pwd1,
-        pwd2:pwd2
+        password1:password1,
+        password2:password2
       }
       const isValid=await data2.isValid(formData);
       console.log(isValid)
       console.log(formData)
-      if (isValid && formData['pwd1']===formData['pwd2'])
+      if (isValid && formData['password1']===formData['password2'])
       {
         console.log(formData)
-        formData={pwd:formData['pwd1']}
+        formData={password:formData['password1']}
         console.log(formData)
+        setLoading(true)
         axios.post(`https://mail-merchant.onrender.com/forgot-password/${params['userid']}`,formData)
-        .then((response) => {console.log(response.data)})
+        .then((response) => {console.log(response.data);setLoading(false);navigate('/login')})
         .catch((error) => {
           console.log('err',error);
           if (error.response.status==401)
@@ -84,7 +93,6 @@ const ForgotPassword = ({setLogged}) => {
             alert("Failed to Change Password")
           }
         });
-        navigate('/login')
     }
     else
     {
@@ -95,7 +103,7 @@ const ForgotPassword = ({setLogged}) => {
   return (
     <div className='flex h-[90vh] w-full items-center flex-col'>
       <span className='flex text-4xl text-body font-bold p-10'>Change Password</span>
-      <div className='flex border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body px-10'>
+      {!loading&&<><div className='flex border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body px-10'>
         {Object.keys(params).length===0 &&
             <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit1}>
                 <label className='flex text-white font-bold'>Mail</label>
@@ -107,15 +115,28 @@ const ForgotPassword = ({setLogged}) => {
         {Object.keys(params).length!==0&&
             <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit2}>
                 <label className='flex text-white font-bold'>New Password</label>
-                <input type={'password'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd1(e.target.value)}}/>
+                <div className='flex flex-row justify-end items-center'>
+                  <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPassword1(e.target.value)}}/>
+                  <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
+                </div>
                 <label className='flex text-white font-bold'>Confirm Password</label>
-                <input type={'password'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd2(e.target.value)}}/>
+                <div className='flex flex-row justify-end items-center'>
+                  <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPassword2(e.target.value)}}/>
+                  <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
+                </div>
                 <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Change Password</button>
             </form>
         }
 
       </div>
       {!params&&<span className='flex p-10 text-2xl'>Check Your Inbox for Check Password Link!</span>}
+      </>
+      }
+      {loading&&
+        <div className='flex justify-center items-center w-full'>
+          <PropagateLoader color='#ffffff'/>
+        </div>
+      }
     </div>
   )
 }

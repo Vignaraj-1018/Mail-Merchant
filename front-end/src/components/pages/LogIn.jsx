@@ -11,7 +11,7 @@ import { UilEye } from '@iconscout/react-unicons'
 const LogIn = ({setLogged}) => {
 
   const [mail,setMail]=useState(null)
-  const [pwd,setPwd]=useState(null)
+  const [password,setPassword]=useState(null)
   // const [id,setId]=useState(null)
   const [pwdvisibility,setPwdVisibility]=useState(false)
 
@@ -22,7 +22,7 @@ const LogIn = ({setLogged}) => {
 
   const data=yup.object().shape({
     mail:yup.string().email().required(),
-    pwd:yup.string().required()
+    password:yup.string().required()
   })
 
   const handleSubmit= async (e) => {
@@ -31,7 +31,7 @@ const LogIn = ({setLogged}) => {
   
       let formData={
         mail:mail,
-        pwd:pwd
+        password:password
       }
       const isValid= await data.isValid(formData);
       // console.log(isValid)
@@ -46,7 +46,7 @@ const LogIn = ({setLogged}) => {
           setLoading(false)
           Cookies.set('userid',response.data.id)
           setLogged(true)
-          navigate('/');
+          window.open('/','_self','noopener,noreferrer');
         })
         .catch((error) => {
           // console.log('err',error);
@@ -88,7 +88,7 @@ const LogIn = ({setLogged}) => {
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>
           <label className='flex text-white font-bold'>Password</label>
           <div className='flex flex-row justify-end items-center'>
-            <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPwd(e.target.value)}}/>
+            <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPassword(e.target.value)}}/>
             <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
           </div>
           <Link to={'/forgot-password'} className='flex hover:text-body'>Forgot Password?</Link>

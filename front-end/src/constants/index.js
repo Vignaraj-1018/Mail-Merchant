@@ -4,37 +4,38 @@ export const navLinks=[
     {id:3,title:'Contact',link:'/contact'},
 ]
 
-export const exampleCode=` # Endpoint for sending email via Mail Merchant
-  POST /send_mail
-  
-  Input:
-  {
-      "name"\: "John Smith",
-      "email": "john.smith@example.com",
-      "subject": "Inquiry",
-      "message": "Hello, I am interested in your services."
-  }
-  
-  Output:
-  {
-      "status": "success",
-      "message": "Email sent successfully."
-  }
-  
-  # Example usage in Python:
-  
-  import requests
-  
-  url = "<your-api-link>"
-  data = {
-      "name": "John Smith",
-      "email": "john.smith@example.com",
-      "subject": "Inquiry",
-      "message": "Hello, I am interested in your services."
-  }
-  response = requests.post(url, data=data)
-  
-  print(response.json()) `
+export const exampleCode=`
+# Endpoint for sending email via Mail Merchant
+POST /send_mail
+
+Input:
+{
+    "name"\: "John Smith",
+    "email": "john.smith@example.com",
+    "subject": "Inquiry",
+    "message": "Hello, I am interested in your services."
+}
+
+Output:
+{
+    "status": "success",
+    "message": "Email sent successfully."
+}
+
+# Example usage in Python:
+
+import requests
+
+url = "<your-api-link>"
+data = {
+    "name": "John Smith",
+    "email": "john.smith@example.com",
+    "subject": "Inquiry",
+    "message": "Hello, I am interested in your services."
+}
+response = requests.post(url, data=data)
+
+print(response.json()) `
 
 export const reactExampleCode =`import React, { useState } from "react";
 

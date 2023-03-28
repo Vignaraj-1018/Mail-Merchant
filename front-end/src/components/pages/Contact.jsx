@@ -8,7 +8,7 @@ const Contact = () => {
   const [name,setName]=useState(null)
   const [mail,setMail]=useState(null)
   const [sub,setSub]=useState(null)
-  const [msg,setMsg]=useState(null)
+  const [message,setMessage]=useState(null)
 
   const [loading, setLoading]=useState(false)
 
@@ -16,8 +16,8 @@ const Contact = () => {
   const data=yup.object().shape({
     mail:yup.string().email().required(),
     name:yup.string().required(),
-    sub:yup.string().required(),
-    msg:yup.string().required()
+    subject:yup.string().required(),
+    message:yup.string().required()
   })
   
   
@@ -26,8 +26,8 @@ const Contact = () => {
     let formData={
       mail:mail,
       name:name,
-      sub:sub,
-      msg:msg
+      subject:subject,
+      message:message
     }
     const isValid= await data.isValid(formData);
     console.log(isValid);
@@ -60,7 +60,7 @@ const Contact = () => {
           <label className='flex text-white font-bold'>Subject</label>
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setSub(e.target.value)}}/>
           <label className='flex text-white font-bold'>Message</label>
-          <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMsg(e.target.value)}}/>
+          <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMessage(e.target.value)}}/>
           <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Send</button>
         </form>
       </div>}
