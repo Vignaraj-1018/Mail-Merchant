@@ -95,7 +95,7 @@ const UserProf = () => {
           <PropagateLoader color='#ffffff'/>
         </div>
       }
-      {!verified&&
+      {!verified&& !loading &&
         <div className='flex flex-col justify-center items-center w-full'>
           <span className='flex text-3xl text-body py-10'>Please Verify user email to continue with Mail Merchant</span>
           {!mail&&<span className='flex text-3xl py-10 cursor-pointer' onClick={requestVerification}>Click here to request Verification Mail!</span>}
