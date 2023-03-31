@@ -70,6 +70,7 @@ const UserProf = () => {
         .then(response =>{
           console.log(response.data);
           setLoading(false);
+          Cookies.remove('userid');
           window.open("/login","_self","noopener,noreferer");
         })
         .catch(err =>{console.log(err);setLoading(false);alert(err.response.message)});
