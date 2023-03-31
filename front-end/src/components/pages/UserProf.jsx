@@ -10,6 +10,7 @@ const UserProf = () => {
     const params = useParams()
     const [loading,setLoading]=useState(true)
     const [verified,setVerified] = useState(true)
+    const [mail,setMail] = useState(false)
 
     const [user,setUser]=useState(null);
     useEffect(()=>{
@@ -47,7 +48,7 @@ const UserProf = () => {
       .then(response =>{
         console.log(response.data);
         setLoading(false);
-        window.open(response.data.url,'_self',"noopener,noreferrer");
+        setMail(true)
       })
       .catch(err =>{console.log(err);setLoading(false);});
       // window.open('http://localhost:5173/user/6422810cdf1e51903d399759/mail-verify','_self','noopener,norefferer');
@@ -97,7 +98,8 @@ const UserProf = () => {
       {!verified&&
         <div className='flex flex-col justify-center items-center w-full'>
           <span className='flex text-3xl text-body py-10'>Please Verify user email to continue with Mail Merchant</span>
-          <span className='flex text-3xl py-10 cursor-pointer' onClick={requestVerification}>Click here to request Verification Mail!</span>
+          {!mail&&<span className='flex text-3xl py-10 cursor-pointer' onClick={requestVerification}>Click here to request Verification Mail!</span>}
+          {mail&&<span className='flex text-3xl py-10 cursor-pointer'>Check Your Inbox To Verify Your Email Account!</span>}
         </div>
       }
       <ToastContainer />
