@@ -63,13 +63,18 @@ const UserProf = () => {
 
     const closeAccount=()=>{
       console.log('closeAccount');
-      axios.post(`https://mail-merchant.onrender.com/closeaccount`,{id:params.userid})
-      .then(response =>{
-        console.log(response.data);
-        setLoading(false);
-        window.open("/login","_self","noopener,noreferer");
-      })
-      .catch(err =>{console.log(err);setLoading(false);alert(err.response.message)});
+      const conf=prompt("Please Enter 'Delete Account Confirm'\nTo delete the account:")
+      if (conf==="Delete Account Confirm")
+      {
+        axios.post(`https://mail-merchant.onrender.com/closeaccount`,{id:params.userid})
+        .then(response =>{
+          console.log(response.data);
+          setLoading(false);
+          window.open("/login","_self","noopener,noreferer");
+        })
+        .catch(err =>{console.log(err);setLoading(false);alert(err.response.message)});
+      }
+
     }
 
     console.log(user)
