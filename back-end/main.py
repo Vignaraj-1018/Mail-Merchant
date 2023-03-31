@@ -89,12 +89,15 @@ def users():
 @app.route("/user/<userid>",methods=['GET', 'POST'])
 def user(userid):
     user=mycol.find_one({'_id':ObjectId(userid)})
-    # print('user: ',user)
-    user["_id"] = str(user["_id"])
-    user["password"] = str(user["password"]) 
-    # print(user)
+    print('user: ',user)
+    if user:
+        user["_id"] = str(user["_id"])
+        user["password"] = str(user["password"]) 
+        # print(user)
+        
+        return user
+    return {"success":False,"message":"User Found","status_code":401},401
     
-    return user 
 
 @cross_origin(supports_credentials=True)
 @app.route("/forgot-password",methods=["POST"])
@@ -160,4 +163,17 @@ def post_mail_verify(userid):
         return {"success":False,"message":"Invalid Credential, User Not Found","status_code":401},401
 
     return {"success":True,"status_code":200},200
+
+@cross_origin(supports_credentials=True)
+@app.route("/closeaccount",methods=["POST"])
+def close_account():
+    data=request.get_json()
+    print(data)
+    res=mycol.delete_one({"_id": ObjectId(data['id'])})
+    print(res)
+    if res:
+        return "Success"
+    return {"success":False,"message":"Some Error Occured!","status_code":500},500
+
+
 app.run(debug=True,host='0.0.0.0',port=8080) 

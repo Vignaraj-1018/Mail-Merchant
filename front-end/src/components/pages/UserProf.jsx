@@ -13,14 +13,25 @@ const UserProf = () => {
     const [mail,setMail] = useState(false)
 
     const [user,setUser]=useState(null);
+
+    const [status,setStatus] = useState(null)
+
     useEffect(()=>{
       axios.post(`https://mail-merchant.onrender.com/user/${params.userid}`)
       .then(response =>{
         setUser(response.data);
         setLoading(false);
         setVerified(response.data.verified);
+        setStatus(response.data.status);
       })
-      .catch(err =>{console.log(err)});
+      .catch(err =>{
+        console.log(err);
+        if (err.response.status==401)
+        {
+          alert("User not found!");
+          window.open("/login","_self","noopener,noreferer");
+        }
+      });
     },[])
     const customStyle = {
       backgroundColor:"#FF6E31"
@@ -48,20 +59,33 @@ const UserProf = () => {
       .then(response =>{
         console.log(response.data);
         setLoading(false);
-        setMail(true)
+        setMail(true);
       })
       .catch(err =>{console.log(err);setLoading(false);});
-      // window.open('http://localhost:5173/user/6422810cdf1e51903d399759/mail-verify','_self','noopener,norefferer');
+    }
 
+    const closeAccount=()=>{
+      console.log('closeAccount');
+      axios.post(`https://mail-merchant.onrender.com/closeaccount`,{id:params.userid})
+      .then(response =>{
+        console.log(response.data);
+        setLoading(false);
+        window.open("/login","_self","noopener,noreferer");
+      })
+      .catch(err =>{console.log(err);setLoading(false);alert(err.response.message)});
     }
 
     console.log(user)
     console.log(verified)
+    console.log(status)
   return (
     <div className='flex w-full'>
       {(!loading && verified)&&
         <div className='flex flex-col justify-center items-center p-10 w-full'>
-          <span className='flex text-3xl text-body'>Welcome, {user?.name.charAt(0).toUpperCase()}{user?.name.slice(1)}</span>
+          <div className='flex flex-col w-full justify-center items-center gap-10'>
+            <span className='flex text-3xl text-body'>Welcome, {user?.name.charAt(0).toUpperCase()}{user?.name.slice(1)}</span>
+            <span className='flex text-xl text-white border border-body rounded-lg p-3 shadow-md hover:shadow-lg hover:shadow-body hover:cursor-pointer shadow-body ' onClick={closeAccount}>Close Account</span>
+          </div>
           <div className='flex flex-col p-10'>
             <span className='flex text-xl p-5'>Here is your api Link:</span>
             <div className='flex flex-col rounded-xl shadow-lg border border-body shadow-body p-3 w-80 sm:w-full'>
