@@ -136,10 +136,14 @@ def post_forgot_password(userid):
 def pre_mail_verify():
     data=request.get_json()
     url=data['url']+"/mail-verify"
+    print(url.split("/"))
     ## want to send mail and verify!
     mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Change Password',
           'message':'Here is the Link to Verify your Mail Address: {}\n Click to verify the Mail!'.format(url)}
+    user=mycol.find_one({'_id':ObjectId(url.split("/")[4])})
+    # print(user)
     resp=send_mail(mail,user=user['mail'])
+    resp=True
     if resp:
         return {"success":True,"status_code":200},200
     return {"success":False,"message":"Please SignUp with a Valid Email Account!","status_code":500},500
