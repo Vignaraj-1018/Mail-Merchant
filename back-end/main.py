@@ -33,7 +33,7 @@ def signup():
     if user:
         return {"success":False,"message":"User Already Exist","status_code":409},409
     else:
-        res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[]})
+        res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"status":"Active","verified":False})
 
     return {'id':str(res.inserted_id)},201
 
@@ -131,4 +131,23 @@ def post_forgot_password(userid):
 
     return "Success"
 
-app.run(debug=True,host='0.0.0.0',port=8080)
+@cross_origin(supports_credentials=True)
+@app.route("/mail-verify-request",methods=["POST"])
+def pre_mail_verify():
+    data=request.get_json()
+    url=data['url']+"/mail-verify"
+    return {"success":True,"url":url,"status_code":200},200
+
+
+@cross_origin(supports_credentials=True)
+@app.route("/mail-verify-request/<userid>",methods=["POST","GET"])
+def post_mail_verify(userid):
+    print(userid)
+    filter = {"_id": ObjectId(userid)}
+    update = {"$set":{"verified":True}}
+    res=mycol.update_one(filter,update)
+    if res.matched_count==0:
+        return {"success":False,"message":"Invalid Credential, User Not Found","status_code":401},401
+
+    return {"success":True,"status_code":200},200
+app.run(debug=True,host='0.0.0.0',port=8080) 

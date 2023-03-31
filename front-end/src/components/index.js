@@ -8,5 +8,6 @@ import LogIn from "./pages/LogIn";
 import UserProf from "./pages/UserProf";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from "./pages/NotFound";
+import Verify from "./pages/Verify";
 
-export {Navbar, Footer, Contact, Docs, Home, SignUp, LogIn, UserProf, ForgotPassword, NotFound}
+export {Navbar, Footer, Contact, Docs, Home, SignUp, LogIn, UserProf, ForgotPassword, NotFound, Verify}

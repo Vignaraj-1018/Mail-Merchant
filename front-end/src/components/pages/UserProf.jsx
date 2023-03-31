@@ -9,11 +9,16 @@ import { ToastContainer, toast } from 'react-toastify';
 const UserProf = () => {
     const params = useParams()
     const [loading,setLoading]=useState(true)
+    const [verified,setVerified] = useState(true)
 
     const [user,setUser]=useState(null);
     useEffect(()=>{
       axios.post(`https://mail-merchant.onrender.com/user/${params.userid}`)
-      .then(response =>{setUser(response.data);setLoading(false)})
+      .then(response =>{
+        setUser(response.data);
+        setLoading(false);
+        setVerified(response.data.verified);
+      })
       .catch(err =>{console.log(err)});
     },[])
     const customStyle = {
@@ -35,10 +40,24 @@ const UserProf = () => {
         });
     }
 
+    const requestVerification=()=>{
+      setLoading(true);
+      axios.post(`https://mail-merchant.onrender.com/mail-verify-request`,{url:window.location.href})
+      .then(response =>{
+        console.log(response.data);
+        setLoading(false);
+        window.open(response.data.url);
+      })
+      .catch(err =>{console.log(err)});
+      // window.open('http://localhost:5173/user/6422810cdf1e51903d399759/mail-verify','_self','noopener,norefferer');
+
+    }
+
     console.log(user)
+    console.log(verified)
   return (
     <div className='flex w-full'>
-      {!loading&&
+      {(!loading && verified)&&
         <div className='flex flex-col justify-center items-center p-10 w-full'>
           <span className='flex text-3xl text-body'>Welcome, {user?.name.charAt(0).toUpperCase()}{user?.name.slice(1)}</span>
           <div className='flex flex-col p-10'>
@@ -58,7 +77,7 @@ const UserProf = () => {
             <span className='flex text-xl text-body'>Your Mail History from the API</span>
             <div className='flex flex-wrap gap-10 justify-center items-center p-10'>
               {user.services.map((item)=>(
-                <div className='flex flex-col text-white w-80 p-2 border-body border rounded-lg shadow-body shadow-md'>
+                <div className='flex flex-col text-white w-80 p-2 border-body border rounded-lg shadow-body shadow-md'  >
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>From:</span> <span className='flex items-center p-1'> {item.name}</span></span>
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>Mail:</span> <span className='flex items-center p-1'> {item.From}</span></span>
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>Subject:</span> <span className='flex items-center p-1'> {item.Subject}</span></span>
@@ -69,9 +88,15 @@ const UserProf = () => {
           </div>
         </div>
       }
-      {loading&&
+      {loading &&
         <div className='flex justify-center items-center w-full'>
           <PropagateLoader color='#ffffff'/>
+        </div>
+      }
+      {!verified&&
+        <div className='flex flex-col justify-center items-center w-full'>
+          <span className='flex text-3xl text-body py-10'>Please Verify user email to continue with Mail Merchant</span>
+          <span className='flex text-3xl py-10 cursor-pointer' onClick={requestVerification}>Click here to request Verification Mail!</span>
         </div>
       }
       <ToastContainer />

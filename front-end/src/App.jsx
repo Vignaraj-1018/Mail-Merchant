@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { Contact, Docs, Footer, ForgotPassword, Home, LogIn, Navbar, NotFound, SignUp, UserProf } from './components'
+import { Contact, Docs, Footer, ForgotPassword, Home, LogIn, Navbar, NotFound, SignUp, UserProf, Verify } from './components'
 import Cookies from 'js-cookie'
 
 function App() {
@@ -36,6 +36,7 @@ function App() {
           <Route path='/user/:userid' element={<UserProf/>}/>
           <Route path='/forgot-password' element={<ForgotPassword/>}/>
           <Route path='/forgot-password/:userid' element={<ForgotPassword/>}/>
+          <Route path='/user/:userid/mail-verify' element={<Verify/>}/>
           <Route path='/*' element={<NotFound/>}/>
         </Routes>
       </div>
