@@ -27,7 +27,7 @@ const Verify = () => {
           {/* <span className='flex text-3xl text-body'>Welcome, {user?.name.charAt(0).toUpperCase()}{user?.name.slice(1)}</span> */}
           <div className='flex flex-col justify-center items-center w-full'>
             <span className='flex text-3xl text-body py-10'>Mail Verification Successfull!</span>
-            <span className='flex text-3xl py-10 cursor-pointer' href={`/user/${params.userid}`}>Click here to Go Back!</span>
+            <a className='flex text-3xl py-10 cursor-pointer' href={`/user/${params.userid}`}>Click here to Go Back!</a>  
           </div>
         </div>}
         {loading &&
