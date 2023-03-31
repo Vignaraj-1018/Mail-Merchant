@@ -33,7 +33,7 @@ def signup():
     if user:
         return {"success":False,"message":"User Already Exist","status_code":409},409
     else:
-        res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"status":"Active","verified":False})
+        res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":False})
 
     return {'id':str(res.inserted_id)},201
 

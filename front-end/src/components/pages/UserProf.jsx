@@ -14,15 +14,12 @@ const UserProf = () => {
 
     const [user,setUser]=useState(null);
 
-    const [status,setStatus] = useState(null)
-
     useEffect(()=>{
       axios.post(`https://mail-merchant.onrender.com/user/${params.userid}`)
       .then(response =>{
         setUser(response.data);
         setLoading(false);
         setVerified(response.data.verified);
-        setStatus(response.data.status);
       })
       .catch(err =>{
         console.log(err);
@@ -77,7 +74,6 @@ const UserProf = () => {
 
     console.log(user)
     console.log(verified)
-    console.log(status)
   return (
     <div className='flex w-full'>
       {(!loading && verified)&&
