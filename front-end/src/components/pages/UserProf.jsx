@@ -47,7 +47,7 @@ const UserProf = () => {
       .then(response =>{
         console.log(response.data);
         setLoading(false);
-        window.open(response.data.url);
+        window.open(response.data.url,'_self',"noopener,noreferrer");
       })
       .catch(err =>{console.log(err);setLoading(false);});
       // window.open('http://localhost:5173/user/6422810cdf1e51903d399759/mail-verify','_self','noopener,norefferer');
