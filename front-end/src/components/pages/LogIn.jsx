@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import * as yup from 'yup'
-// import { useSignIn } from 'react-auth-kit';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -12,12 +11,10 @@ const LogIn = ({setLogged}) => {
 
   const [mail,setMail]=useState(null)
   const [password,setPassword]=useState(null)
-  // const [id,setId]=useState(null)
   const [pwdvisibility,setPwdVisibility]=useState(false)
 
   const [loading, setLoading]=useState(false)
 
-  // const signIn=useSignIn();
   const navigate=useNavigate();
 
   const data=yup.object().shape({
@@ -27,29 +24,23 @@ const LogIn = ({setLogged}) => {
 
   const handleSubmit= async (e) => {
     e.preventDefault()
-    // console.log(mail,pwd);
   
       let formData={
         mail:mail,
         password:password
       }
       const isValid= await data.isValid(formData);
-      // console.log(isValid)
-      // console.log(formData)
       if (isValid)
       {
         setLoading(true)
         axios.post('https://mail-merchant.onrender.com/login',formData)
         .then((response) => {
-          // setId(response.data.id);
-          // console.log(response,response.data.id);
           setLoading(false)
           Cookies.set('userid',response.data.id)
           setLogged(true)
           window.open('/','_self','noopener,noreferrer');
         })
         .catch((error) => {
-          // console.log('err',error);
           if (error.response.status==401)
           {
             alert("Invalid login")
@@ -60,24 +51,9 @@ const LogIn = ({setLogged}) => {
           }
           setLoading(false)
         });
-        
-        // console.log("loggedin");
-        // console.log(id)
-        // if(id){
-          // signIn({
-          // token:id,
-          // expiresIn:'3600',
-          // tokenType:'Bearer',
-          // authState:formData,
-          // })
-          // Cookies.set('userid',id)
-          // setLogged(true)
-          // navigate('/');
-        // }
     }
   }
 
-  // console.log("loading...",loading);
 
   return (
     <div className='flex w-full justify-center items-center flex-col p-3'>

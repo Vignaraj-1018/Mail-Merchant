@@ -2,7 +2,6 @@ import React from 'react'
 import { mailService } from '../../assets'
 
 const Home = () => {
-  // console.log(cookie)
   return (
     <div className='flex w-full flex-col p-3'>
       <span className='flex text-4xl text-body font-bold p-10 w-full justify-center'>Mail Merchant</span>

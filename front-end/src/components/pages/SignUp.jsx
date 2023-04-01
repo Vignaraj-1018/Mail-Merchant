@@ -1,6 +1,5 @@
 import React,{useState} from 'react'
 import * as yup from 'yup'
-// import { useSignIn } from 'react-auth-kit';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -16,7 +15,6 @@ const SignUp = ({setLogged}) => {
 
   const [loading,setLoading]=useState(false)
 
-  // const signIn=useSignIn();
   const navigate=useNavigate();
 
   const data=yup.object().shape({
@@ -27,7 +25,6 @@ const SignUp = ({setLogged}) => {
 
   const handleSubmit=async (e) => {
     e.preventDefault()
-    // console.log(mail,name,pwd);
   
       let formData={
         mail:mail,
@@ -36,22 +33,17 @@ const SignUp = ({setLogged}) => {
         password2:password
       }
       const isValid=await data.isValid(formData);
-      // console.log(isValid)
-      // console.log(formData)
       if (isValid && password === password2)
       {
         setLoading(true)
         axios.post('https://mail-merchant.onrender.com/signup',formData)
         .then((response) => {
-          // setId(response.data.id);
-          // console.log(id);
           setLoading(false)
           Cookies.set('userid',response.data.id)
           setLogged(true)
           navigate('/');
         })
         .catch((error) => {
-          // console.log('err',error);
           if (error.response.status==409)
           {
             alert("User Already Registered")
@@ -59,19 +51,6 @@ const SignUp = ({setLogged}) => {
           setLoading(false)
         });
         
-        // console.log("loggedin");
-        // if(id){
-        //   console.log(id)
-          // signIn({
-          // token:id,
-          // expiresIn:'3600',
-          // tokenType:'Bearer',
-          // authState:formData,
-          // })
-          // Cookies.set('userid',id)
-          // setLogged(true)
-          // navigate('/');
-        // }
     }
     else if(password!==password2)
     {

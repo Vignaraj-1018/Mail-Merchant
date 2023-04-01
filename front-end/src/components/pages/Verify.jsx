@@ -24,7 +24,6 @@ const Verify = () => {
     <div className='flex w-full'>
         {verified && 
         <div className='flex flex-col justify-center items-center p-10 w-full'>
-          {/* <span className='flex text-3xl text-body'>Welcome, {user?.name.charAt(0).toUpperCase()}{user?.name.slice(1)}</span> */}
           <div className='flex flex-col justify-center items-center w-full'>
             <span className='flex text-3xl text-body py-10'>Mail Verification Successfull!</span>
             <a className='flex text-3xl py-10 cursor-pointer' href={`/user/${params.userid}`}>Click here to Go Back!</a>  

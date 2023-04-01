@@ -31,9 +31,7 @@ def hello_world():
 @app.route("/signup",methods=["POST"])
 def signup():
     data=request.get_json()
-    # print(data['password'])
     data['password'] = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
-    # print(data['password']) 
     user=mycol.find_one({'mail':data['mail']})
     if user:
         return {"success":False,"message":"User Already Exist","status_code":409},409
@@ -49,7 +47,6 @@ def login():
     user=mycol.find_one({'mail':data['mail']})
     if user:
         if bcrypt.checkpw(data['password'].encode('utf-8'), user['password']):
-        # print('Password is correct')
             return {'id':str(user['_id'])}
         else:
             return {"success":False,"message":"Wrong Password","status_code":403},403
@@ -60,17 +57,13 @@ def login():
 @cross_origin(supports_credentials=True)
 @app.route("/sendmail/<userid>",methods=['POST'])
 def sendmail(userid):
-    # print("Sendmail, ",userid)
     user=mycol.find_one({'_id':ObjectId(userid)})
-    # print('user: ',user)
     if not user:
         return {"success":False,"message":"Invalid Credential, User Not Found","status_code":401},401
-    # print(user['mail'])
+
     resp=send_mail(request.get_json(),user=user['mail'])
     filter = {"_id": ObjectId(userid)}
     update = {"$push": {"services": {"From":resp['From'],"To":resp['To'],"name":request.get_json()['name'],"Subject":resp['Subject'],"message":request.get_json()['message']}}}
-    # print(update)
-    # print('Mail: ',resp,"update",update)
     result = mycol.update_one(filter, update)
     if result:
         return {"success":True,"message":"Mail Sent Successfully","status_code":201},201
@@ -87,18 +80,15 @@ def users():
         document["password"] = str(document["password"])
         documents.append(document)
     json_string= json.dumps(documents, default=json_util.default)
-    # print('Output',json_string)
     return json_string
 
 @cross_origin(supports_credentials=True)
 @app.route("/user/<userid>",methods=['GET', 'POST'])
 def user(userid):
     user=mycol.find_one({'_id':ObjectId(userid)})
-    print('user: ',user)
     if user:
         user["_id"] = str(user["_id"])
         user["password"] = str(user["password"]) 
-        # print(user)
         
         return user
     return {"success":False,"message":"User Found","status_code":401},401
@@ -108,13 +98,11 @@ def user(userid):
 @app.route("/forgot-password",methods=["POST"])
 def pre_forgot_password():
     data=request.get_json()
-    # print(data['url'])
     url=data['url']
     user=mycol.find_one({'mail':(data['mail'])})
 
     if not user:
         return {"success":False,"message":"Invalid Credential, User Not Found","status_code":401},401
-    # print(user)
     mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Change Password',
           'message':'Link the Link to Continue to Changing the Password: {}/{}'.format(url,str(user['_id']))}
     resp=send_mail(mail,user=user['mail'])
@@ -125,15 +113,11 @@ def pre_forgot_password():
 @cross_origin(supports_credentials=True)
 @app.route("/forgot-password/<userid>",methods=["POST"])
 def post_forgot_password(userid):
-    # print(userid)
     data=request.get_json()
-    # print(data)
     data['password'] = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
     filter = {"_id": ObjectId(userid)}
     update = {"$set":{"password":data['password']}} 
-    # print(update)
     res=mycol.update_one(filter,update)
-    # print(res.matched_count,res.modified_count)
     if res.matched_count==0:
         return {"success":False,"message":"Invalid Credential, User Not Found","status_code":401},401
 
@@ -144,12 +128,9 @@ def post_forgot_password(userid):
 def pre_mail_verify():
     data=request.get_json()
     url=data['url']+"/mail-verify"
-    print(url.split("/"))
-    ## want to send mail and verify!
     mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Mail Verification',
           'message':'Here is the Link to Verify your Mail Address:\n{}\nClick to verify the Mail!'.format(url)}
     user=mycol.find_one({'_id':ObjectId(url.split("/")[4])})
-    # print(user)
     resp=send_mail(mail,user=user['mail'])
     resp=True
     if resp:
@@ -160,7 +141,6 @@ def pre_mail_verify():
 @cross_origin(supports_credentials=True)
 @app.route("/mail-verify-request/<userid>",methods=["POST","GET"])
 def post_mail_verify(userid):
-    print(userid)
     filter = {"_id": ObjectId(userid)}
     update = {"$set":{"verified":True}}
     res=mycol.update_one(filter,update)
@@ -173,9 +153,7 @@ def post_mail_verify(userid):
 @app.route("/closeaccount",methods=["POST"])
 def close_account():
     data=request.get_json()
-    print(data)
     res=mycol.delete_one({"_id": ObjectId(data['id'])})
-    print(res)
     if res:
         return "Success"
     return {"success":False,"message":"Some Error Occured!","status_code":500},500

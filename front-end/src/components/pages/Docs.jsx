@@ -7,10 +7,7 @@ import { reactExampleCode,angularExampleCode,normaljsExampleCode, endpointExampl
 
 const Docs = () => {
   const [toggle,setToggle]=useState(false);
-
   
-
-  console.log(toggle)
   return (
     <div className='flex flex-row w-full sm:text-xl text-sm'>
       <div className='flex w-1/6 sm:bg-body'>

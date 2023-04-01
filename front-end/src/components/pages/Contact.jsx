@@ -3,7 +3,6 @@ import * as yup from 'yup'
 import axios from 'axios'
 import {PropagateLoader} from 'react-spinners'
 
-
 const Contact = () => {
   const [name,setName]=useState(null)
   const [mail,setMail]=useState(null)
@@ -19,6 +18,8 @@ const Contact = () => {
     subject:yup.string().required(),
     message:yup.string().required()
   })
+
+  const apiUrl = import.meta.env.VITE_CONTACT_URL;
   
   
   const handleSubmit= async (e) => {
@@ -34,11 +35,10 @@ const Contact = () => {
     if (isValid)
     {
       setLoading(true)
-      axios.post('https://mail-merchant.onrender.com/sendmail/6420a0c43d4f1c6468b93e39',formData)
+      axios.post(apiUrl,formData)
       .then((response) => {
         console.log(response.data);
         setLoading(false)
-        // window.open('/contact','_self','noopener,noreferrer')
       })
       .catch((error) => {
         if (error.response.status==500)

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import * as yup from 'yup'
-// import { useSignIn } from 'react-auth-kit';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import {PropagateLoader} from 'react-spinners'
@@ -17,8 +16,6 @@ const ForgotPassword = ({setLogged}) => {
   const [pwdvisibility,setPwdVisibility]=useState(false)
 
   const params=useParams();
-  console.log(params)
-  console.log(Object.keys(params).length)
 
   const navigate=useNavigate();
 
@@ -35,18 +32,14 @@ const ForgotPassword = ({setLogged}) => {
 
   const handleSubmit1=async (e) => {
     e.preventDefault()
-    console.log(mail);
   
       let formData={
         mail:mail,
         url:window.location.href
       }
       const isValid=await data1.isValid(formData);
-      console.log(isValid)
-      console.log(formData)
       if (isValid)
       {
-        // console.log(formData)
         setLoading(true);
         axios.post('https://mail-merchant.onrender.com/forgot-password',formData)
         .then((response) => {console.log(response.data); setLoading(false);})
@@ -65,20 +58,15 @@ const ForgotPassword = ({setLogged}) => {
   }
   const handleSubmit2=async (e) => {
     e.preventDefault()
-    console.log(mail);
   
       let formData={
         password1:password1,
         password2:password2
       }
       const isValid=await data2.isValid(formData);
-      console.log(isValid)
-      console.log(formData)
       if (isValid && formData['password1']===formData['password2'])
       {
-        console.log(formData)
         formData={password:formData['password1']}
-        console.log(formData)
         setLoading(true)
         axios.post(`https://mail-merchant.onrender.com/forgot-password/${params['userid']}`,formData)
         .then((response) => {console.log(response.data);setLoading(false);navigate('/login')})

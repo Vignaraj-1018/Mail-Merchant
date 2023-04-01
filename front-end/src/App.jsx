@@ -6,18 +6,13 @@ import Cookies from 'js-cookie'
 function App() {
   const [logged,setLogged] =useState(false)
   const [cookie,setCookie] = useState(null)
-  console.log(logged)
 
   useEffect(()=>{
     let ck=Cookies.get()
-    // console.log('ck',ck);
     if (ck.userid)
     {
       setCookie(ck)
-      // console.log(ck);
       setLogged(true);
-      // console.log("Cookie Available")
-      // console.log(cookie);
     }
   },[]);
 

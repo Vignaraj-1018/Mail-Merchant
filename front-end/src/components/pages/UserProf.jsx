@@ -24,7 +24,6 @@ const UserProf = () => {
         setVerified(response.data.verified);
       })
       .catch(err =>{
-        console.log(err);
         if (err.response?.status==401)
         {
           alert("User not found!");
@@ -60,10 +59,8 @@ const UserProf = () => {
 
     const requestVerification=()=>{
       setLoading(true);
-      console.log(window.location.href);
       axios.post(`https://mail-merchant.onrender.com/mail-verify-request`,{url:window.location.href})
       .then(response =>{
-        console.log(response.data);
         setLoading(false);
         setMail(true);
       })
@@ -71,7 +68,6 @@ const UserProf = () => {
     }
 
     const closeAccount=()=>{
-      console.log('closeAccount');
       const conf=prompt("Please Enter 'Delete Account Confirm'\nTo delete the account:")
       if (conf==="Delete Account Confirm")
       {
@@ -88,8 +84,6 @@ const UserProf = () => {
 
     }
 
-    console.log(user)
-    console.log(verified)
   return (
     <div className='flex w-full'>
       {(!loading && verified)&&

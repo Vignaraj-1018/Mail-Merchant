@@ -4,18 +4,15 @@ import logo from '../assets/logo.png'
 import { navLinks } from '../constants'
 import { UilUser,UilBars,UilTimes } from '@iconscout/react-unicons'
 import { Link,useNavigate } from 'react-router-dom'
-// import { useSignOut } from 'react-auth-kit';
 import Cookies from 'js-cookie'
 
 const Navbar = ({logged,setLogged,cookie}) => {
 
-    // const signOut=useSignOut();
     const navigate=useNavigate();
 
     const [toggle,setToggle]=useState(false)
     
     const logOut=()=>{
-        // signOut();
         Cookies.remove('userid')
         setLogged(false);
         setToggle(false);
