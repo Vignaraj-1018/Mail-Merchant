@@ -3,7 +3,7 @@ import { UilBars,UilTimes } from '@iconscout/react-unicons'
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { exampleCode,reactExampleCode,angularExampleCode,normaljsExampleCode } from '../../constants';
+import { reactExampleCode,angularExampleCode,normaljsExampleCode, endpointExampleCode, pythonExampleCode } from '../../constants';
 
 const Docs = () => {
   const [toggle,setToggle]=useState(false);
@@ -55,30 +55,39 @@ const Docs = () => {
         <section id='started' className='flex flex-col gap-7 py-10 font-semibold sm:w-[90%] text-justify leading-8'>
           <span className='flex text-xl font-bold text-body'>Getting Started With Mail Merchant</span>
           <span>
-            Ready to get started with Mail Merchant and start sending emails from your website's contact forms? Great! Here's a quick guide to help you get set up:
+            Ready to get started with Mail Merchant and start sending emails from your website's contact forms?
+          </span>
+          <span>
+            Great! Here's a quick guide to help you get set up:
           </span>
           <span>
             <span className='text-body'>Step 1:</span> Sign up for a Mail Merchant account on our website. Create an account using your email address and other contact information.
           </span>
           <span>
-            <span className='text-body'>Step 2:</span> Once you've signed up, you'll need to integrate Mail Merchant with your website's contact forms. Our API documentation provides step-by-step instructions on how to do this, and our support team is always available to help if you run into any issues.
+            <span className='text-body'>Step 2:</span> Once you've signed up, You will have to verify your email address. Go to your account page to request email varification mail.
           </span>
           <span>
-            <span className='text-body'>Step 3:</span> After you've integrated Mail Merchant with your contact forms, you can start sending emails directly from your website. When a visitor submits a message through your contact form, it will be sent to your Mail Merchant account and delivered to your email inbox.
+            <span className='text-body'>Step 3:</span> After you've verified your email, we will provide you with the endpoint link with which you can integrate Mail Merchant into your application.
           </span>
           <span>
-            <span className='text-body'>Step 4:</span> To manage your emails, simply log in to your Mail Merchant account and view your email inbox. From here, you can read, respond to, and manage your messages with ease.
+            <span className='text-body'>Step 4:</span> Refer below examples to integrate the Mail Merchant into your application with different tools.
+          </span>
+          <span>
+            For any Queries, Go to Contact page and Send your query to us, We will get back to you!
           </span>
         </section>
         <section id='endpoints' className='flex flex-col gap-7 py-10 font-semibold sm:w-[90%] text-justify leading-8'>
           <span className='flex text-xl font-bold text-body'>Endpoint of Mail Merchant</span>
-          <SyntaxHighlighter language="python" style={vscDarkPlus}>
-            {exampleCode}
+          <SyntaxHighlighter language="json" style={vscDarkPlus}>
+            {endpointExampleCode}
           </SyntaxHighlighter>
-
         </section>
         <section id='eg' className='flex flex-col gap-7 py-10 font-semibold sm:w-[90%] text-justify leading-8'>
-          <span className='flex text-xl font-bold text-body'>Examples in various Frameworks:</span>
+          <span className='flex text-xl font-bold text-body'>Examples in various Tools:</span>
+          <span className='flex text-xl font-bold text-body'>Python:</span>
+          <SyntaxHighlighter language="python" style={vscDarkPlus}>
+            {pythonExampleCode}
+          </SyntaxHighlighter>
           <span className='flex text-xl font-bold text-body'>ReactJS:</span>
           <SyntaxHighlighter language="jsx" style={vscDarkPlus}>
             {reactExampleCode}

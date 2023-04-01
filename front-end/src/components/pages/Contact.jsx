@@ -7,7 +7,7 @@ import {PropagateLoader} from 'react-spinners'
 const Contact = () => {
   const [name,setName]=useState(null)
   const [mail,setMail]=useState(null)
-  const [sub,setSub]=useState(null)
+  const [subject,setSubject]=useState(null)
   const [message,setMessage]=useState(null)
 
   const [loading, setLoading]=useState(false)
@@ -58,7 +58,7 @@ const Contact = () => {
           <label className='flex text-white font-bold'>Mail</label>
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMail(e.target.value)}}/>
           <label className='flex text-white font-bold'>Subject</label>
-          <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setSub(e.target.value)}}/>
+          <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setSubject(e.target.value)}}/>
           <label className='flex text-white font-bold'>Message</label>
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMessage(e.target.value)}}/>
           <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Send</button>

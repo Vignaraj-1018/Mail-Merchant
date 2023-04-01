@@ -73,6 +73,7 @@ const UserProf = () => {
           console.log(response.data);
           setLoading(false);
           Cookies.remove('userid');
+          alert('Your Account has been successfully deleted');
           window.open("/login","_self","noopener,noreferer");
         })
         .catch(err =>{console.log(err);setLoading(false);});
@@ -111,7 +112,7 @@ const UserProf = () => {
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>From:</span> <span className='flex items-center p-1'> {item.name}</span></span>
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>Mail:</span> <span className='flex items-center p-1'> {item.From}</span></span>
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>Subject:</span> <span className='flex items-center p-1'> {item.Subject}</span></span>
-                  <span className='flex flex-col p-1 '><span className='flex text-xl font-semibold'>Message:</span> <span className='flex items-center  p-1'> {item.msg }</span></span>
+                  <span className='flex flex-col p-1 '><span className='flex text-xl font-semibold'>Message:</span> <span className='flex items-center  p-1'> {item.message }</span></span>
                 </div>
               ))}
             </div>

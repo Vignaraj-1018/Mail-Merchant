@@ -4,44 +4,50 @@ export const navLinks=[
     {id:3,title:'Contact',link:'/contact'},
 ]
 
-export const exampleCode=`
-# Endpoint for sending email via Mail Merchant
-POST /send_mail
+export const endpointExampleCode=`POST /send_mail/:userid
 
 Input:
 {
     "name"\: "John Smith",
-    "email": "john.smith@example.com",
+    "mail": "john.smith@example.com",
     "subject": "Inquiry",
     "message": "Hello, I am interested in your services."
 }
 
 Output:
 {
-    "status": "success",
-    "message": "Email sent successfully."
+  "message": "Mail Sent Successfully",
+  "status_code": 201,
+  "success": true
 }
+`
 
-# Example usage in Python:
-
-import requests
+export const pythonExampleCode=`import requests
 
 url = "<your-api-link>"
 data = {
     "name": "John Smith",
-    "email": "john.smith@example.com",
+    "mail": "john.smith@example.com",
     "subject": "Inquiry",
     "message": "Hello, I am interested in your services."
 }
-response = requests.post(url, data=data)
+# Set the content type header
+headers = {'Content-Type': 'application/json'}
 
-print(response.json()) `
+# Send the POST request
+response = requests.post(url, json=data, headers=headers)
+
+# Check the response status code
+if response.status_code == 201:
+    print('Mail sent successfully')       # Request was successful
+else:
+    print('Failed to send Mail')          # Request failed`
 
 export const reactExampleCode =`import React, { useState } from "react";
 
 function ContactForm() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [mail, setMail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
@@ -52,12 +58,12 @@ function ContactForm() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, email, subject, message }),
+      body: JSON.stringify({ name, mail, subject, message }),
     });
     const data = await response.json();
     console.log(data);
     setName("");
-    setEmail("");
+    setMail("");
     setSubject("");
     setMessage("");
   };
@@ -76,8 +82,8 @@ function ContactForm() {
         Email:
         <input
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={mail}
+          onChange={(e) => setMail(e.target.value)}
         />
       </label>
       <label>
@@ -116,7 +122,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
       </label>
       <label>
         Email:
-        <input [(ngModel)]="email" name="email" type="email" required>
+        <input [(ngModel)]="mail" name="mail" type="email" required>
       </label>
       <label>
         Subject:
@@ -132,7 +138,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class ContactFormComponent {
   name: string;
-  email: string;
+  mail: string;
   subject: string;
   message: string;
 
@@ -140,11 +146,11 @@ export class ContactFormComponent {
 
   onSubmit() {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const body = { name: this.name, email: this.email, subject: this.subject, message: this.message };
+    const body = { name: this.name, mail: this.mail, subject: this.subject, message: this.message };
     this.http.post('<your-api-link>', body, { headers }).subscribe((response) => {
       console.log(response);
       this.name = '';
-      this.email = '';
+      this.mail = '';
       this.subject = '';
       this.message = '';
     });
@@ -187,7 +193,7 @@ export const normaljsExampleCode=`<!DOCTYPE html>
     </label>
     <label>
       Email:
-      <input id="email" type="email" required>
+      <input id="mail" type="email" required>
     </label>
     <label>
       Subject:
@@ -206,7 +212,7 @@ export const normaljsExampleCode=`<!DOCTYPE html>
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
+      const mail = document.getElementById('mail').value;
       const subject = document.getElementById('subject').value;
       const message = document.getElementById('message').value;
 
@@ -215,12 +221,12 @@ export const normaljsExampleCode=`<!DOCTYPE html>
       xhr.open('POST', url, true);
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
+        if (xhr.readyState === 4 && xhr.status === 201) {
           console.log(xhr.responseText);
           form.reset();
         }
       };
-      const data = JSON.stringify({ name, email, subject, message });
+      const data = JSON.stringify({ name, mail, subject, message });
       xhr.send(data);
     });
   </script>
