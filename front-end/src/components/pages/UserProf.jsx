@@ -73,7 +73,7 @@ const UserProf = () => {
           Cookies.remove('userid');
           window.open("/login","_self","noopener,noreferer");
         })
-        .catch(err =>{console.log(err);setLoading(false);alert(err.response.message)});
+        .catch(err =>{console.log(err);setLoading(false);});
       }
 
     }
@@ -125,7 +125,7 @@ const UserProf = () => {
         <div className='flex flex-col justify-center items-center w-full'>
           <span className='flex text-3xl text-body py-10'>Please Verify user email to continue with Mail Merchant</span>
           {!mail&&<span className='flex text-3xl py-10 cursor-pointer' onClick={requestVerification}>Click here to request Verification Mail!</span>}
-          {mail&&<span className='flex text-3xl py-10 cursor-pointer'>Check Your Inbox To Verify Your Email Account!</span>}
+          {mail&&<span className='flex text-3xl py-10 '>Check Your Inbox To Verify Your Email Account!</span>}
         </div>
       }
       <ToastContainer />

@@ -141,8 +141,8 @@ def pre_mail_verify():
     url=data['url']+"/mail-verify"
     print(url.split("/"))
     ## want to send mail and verify!
-    mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Change Password',
-          'message':'Here is the Link to Verify your Mail Address: {}\n Click to verify the Mail!'.format(url)}
+    mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Mail Verification',
+          'message':'Here is the Link to Verify your Mail Address:\n{}\nClick to verify the Mail!'.format(url)}
     user=mycol.find_one({'_id':ObjectId(url.split("/")[4])})
     # print(user)
     resp=send_mail(mail,user=user['mail'])
