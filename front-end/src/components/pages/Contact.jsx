@@ -61,7 +61,7 @@ const Contact = () => {
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setSubject(e.target.value)}}/>
           <label className='flex text-white font-bold'>Message</label>
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setMessage(e.target.value)}}/>
-          <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Send</button>
+          <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center shadow-body shadow-sm hover:shadow-md hover:shadow-body'>Send</button>
         </form>
       </div>}
       {loading&&

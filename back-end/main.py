@@ -9,11 +9,16 @@ import pymongo
 from bson.objectid import ObjectId
 from bson import json_util
 
+from dotenv import load_dotenv
+load_dotenv()
+import os
+mongoClient = os.getenv('MONGO_CLIENT')
+
 app = Flask(__name__)
 CORS(app, support_credentials=True)
 
 
-client = pymongo.MongoClient("mongodb+srv://mailmerchant1018:MailMerchant1018@mailmerchant.pkmhkhu.mongodb.net/?retryWrites=true&w=majority")
+client = pymongo.MongoClient(mongoClient)
 db = client['Users']
 mycol=db['user_details']
 

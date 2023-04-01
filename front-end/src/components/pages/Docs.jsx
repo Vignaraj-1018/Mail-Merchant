@@ -70,7 +70,10 @@ const Docs = () => {
             <span className='text-body'>Step 3:</span> After you've verified your email, we will provide you with the endpoint link with which you can integrate Mail Merchant into your application.
           </span>
           <span>
-            <span className='text-body'>Step 4:</span> Refer below examples to integrate the Mail Merchant into your application with different tools.
+            <span className='text-body'>Step 4:</span> Mail Merchant API endpoint accepts four fields - {"{"} name, email, subject, and message {"}"} - through a POST method and returns a 201 status code upon successful delivery of the mail.
+          </span>
+          <span>
+            <span className='text-body'>Step 5:</span> Refer below examples to integrate the Mail Merchant into your application with different tools.
           </span>
           <span>
             For any Queries, Go to Contact page and Send your query to us, We will get back to you!

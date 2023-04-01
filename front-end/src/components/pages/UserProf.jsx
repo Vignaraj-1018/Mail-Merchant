@@ -25,10 +25,17 @@ const UserProf = () => {
       })
       .catch(err =>{
         console.log(err);
-        if (err.response.status==401)
+        if (err.response?.status==401)
         {
           alert("User not found!");
           window.open("/login","_self","noopener,noreferer");
+        }
+        else
+        {
+          alert("Error Occured!");
+          Cookies.remove("userid");
+          window.open("/login","_self","noopener,noreferer");
+          setLoading(false);
         }
       });
     },[])
@@ -100,14 +107,14 @@ const UserProf = () => {
                   <UilCopy color='#ffffff' className='flex h-8 w-8' onClick={handleCopy} />
                 </div>
               </div>
-              <span className='flex text-lg text-gray-400 p-5 w-full truncate' id='link'>https://mail-merchant.onrender.com/sendmail/{user._id}</span>
+              <span className='flex text-lg text-gray-400 p-5 w-full truncate' id='link'>https://mail-merchant.onrender.com/sendmail/{user?._id}</span>
               <span className='flex text-sm text-white justify-center'><a href='/docs'>Check Docs to Know how it Works! </a></span>
             </div>
           </div>
           <div className='flex flex-col w-full justify-center items-center'>
             <span className='flex text-xl text-body'>Your Mail History from the API</span>
             <div className='flex flex-wrap gap-10 justify-center items-center p-10'>
-              {user.services.map((item)=>(
+              {user?.services.map((item)=>(
                 <div className='flex flex-col text-white w-80 p-2 border-body border rounded-lg shadow-body shadow-md'  >
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>From:</span> <span className='flex items-center p-1'> {item.name}</span></span>
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>Mail:</span> <span className='flex items-center p-1'> {item.From}</span></span>
@@ -127,7 +134,10 @@ const UserProf = () => {
       {!verified&& !loading &&
         <div className='flex flex-col justify-center items-center w-full'>
           <span className='flex text-3xl text-body py-10'>Please Verify user email to continue with Mail Merchant</span>
-          {!mail&&<span className='flex text-3xl py-10 cursor-pointer' onClick={requestVerification}>Click here to request Verification Mail!</span>}
+          {!mail&&<div className='flex justify-center items-center flex-col'>
+            <span className='flex text-xl text-white border border-body rounded-lg p-3 shadow-md hover:shadow-lg hover:shadow-body hover:cursor-pointer shadow-body w-fit' onClick={requestVerification}>Verify Mail</span>
+            <span className='flex text-3xl py-10' >Click here to request Verification Mail!</span>
+          </div>}
           {mail&&<span className='flex text-3xl py-10 '>Check Your Inbox To Verify Your Email Account!</span>}
         </div>
       }
