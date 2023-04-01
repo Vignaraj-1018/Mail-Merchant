@@ -4,7 +4,9 @@ import axios from 'axios'
 import {PropagateLoader} from 'react-spinners'
 import { UilArrow,UilCopy } from '@iconscout/react-unicons'
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
+
 
 const UserProf = () => {
     const params = useParams()
