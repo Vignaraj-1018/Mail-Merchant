@@ -4,7 +4,7 @@ Mail Merchant is a free email integration API built with Python Flask and MongoD
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/<your-username>/mail-merchant.git`
+1. Clone the repository: `git clone https://github.com/Vignaraj-1018/mail-merchant.git`
 2. Navigate to the project directory: `cd mail-merchant`
 3. Create a virtual environment: `python3 -m venv env`
 4. Activate the virtual environment: `source env/bin/activate`
