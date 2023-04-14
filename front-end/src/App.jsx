@@ -8,10 +8,10 @@ function App() {
   const [cookie,setCookie] = useState(null)
 
   useEffect(()=>{
-    let ck=Cookies.get()
-    if (ck.userid)
+    let ck=Cookies.get("userid")
+    if (ck)
     {
-      setCookie(ck)
+      setCookie(ck);
       setLogged(true);
     }
   },[]);

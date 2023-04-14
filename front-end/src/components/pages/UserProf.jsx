@@ -32,8 +32,8 @@ const UserProf = () => {
         else
         {
           alert("Error Occured!");
-          Cookies.remove("userid");
-          window.open("/login","_self","noopener,noreferer");
+          // Cookies.remove("userid");
+          window.open("/","_self","noopener,noreferer");
           setLoading(false);
         }
       });

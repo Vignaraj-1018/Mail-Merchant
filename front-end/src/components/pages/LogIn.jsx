@@ -59,6 +59,7 @@ const LogIn = ({setLogged}) => {
   const login = useGoogleLogin({
     onSuccess: async respose => {
         try {
+
             const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
                 headers: {
                     "Authorization": `Bearer ${respose.access_token}`
@@ -68,6 +69,7 @@ const LogIn = ({setLogged}) => {
             console.log(res.data)
             // loginUser({email:res.data.email,pic:res.data.picture});
             Cookies.set("pic",res.data.picture);
+            setLoading(true);
             // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
             axios.defaults.headers.post['Access-Control-Allow-Origin']='*';
             let formData={mail:res.data.email,name:res.data.name}
