@@ -5,7 +5,9 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import {PropagateLoader} from 'react-spinners'
 import { UilEye } from '@iconscout/react-unicons'
+import { google } from '../../assets';
 
+import { useGoogleLogin } from '@react-oauth/google';
 
 const LogIn = ({setLogged}) => {
 
@@ -54,6 +56,25 @@ const LogIn = ({setLogged}) => {
     }
   }
 
+  const login = useGoogleLogin({
+    onSuccess: async respose => {
+        try {
+            const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+                headers: {
+                    "Authorization": `Bearer ${respose.access_token}`
+                }
+            })
+
+            console.log(res.data)
+            // loginUser({email:res.data.email,pic:res.data.picture});
+        } catch (err) {
+            console.log(err)
+
+        }
+
+    }
+});
+
 
   return (
     <div className='flex w-full justify-center items-center flex-col p-3'>
@@ -68,6 +89,12 @@ const LogIn = ({setLogged}) => {
             <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
           </div>
           <Link to={'/forgot-password'} className='flex hover:text-body'>Forgot Password?</Link>
+          <div className='flex flex-row'>
+            <div className='flex bg-zinc-900 rounded-3xl justify-center items-center w-fit mt-2 mx-3 p-3 hover:scale-105 ease-in-out duration-300 cursor-pointer' onClick={login}>
+                <img alt='google' src={google} className={`w-10 h-10 object-contain bg-white m-auto rounded-xl`}/>
+                <span className='flex pl-3'>Continue with Google</span>
+            </div>
+        </div>
           <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>LogIn</button>
         </form>
       </div>}

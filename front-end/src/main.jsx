@@ -1,16 +1,17 @@
 import React from 'react'
-import { AuthProvider } from 'react-auth-kit'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import './index.css'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider authType={'cookie'} authName='user' cookieDomain={window.location.hostname} cookieSecure={false}>
+    <GoogleOAuthProvider clientId={'742052500585-1oarj9gvfsf66a406fkg19gkecruttgc.apps.googleusercontent.com'}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </AuthProvider>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 )
