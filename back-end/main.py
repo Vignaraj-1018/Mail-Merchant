@@ -73,7 +73,7 @@ def g_login():
     data=request.get_json()
     user=mycol.find_one({'mail':data['mail']})
     if user:
-        if bcrypt.checkpw(data['password'].encode('utf-8'), user['name']):
+        if bcrypt.checkpw(data['name'].encode('utf-8'), user['password']):
             return {'id':str(user['_id']),"success":True},200
         else:
             return {"success":False,"message":"Wrong Password","status_code":403},403

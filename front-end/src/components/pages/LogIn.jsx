@@ -70,7 +70,9 @@ const LogIn = ({setLogged}) => {
             Cookies.set("pic",res.data.picture);
             // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
             axios.defaults.headers.post['Access-Control-Allow-Origin']='*';
-            axios.post('https://mail-merchant.onrender.com/g/login',{mail:res.data.email,name:res.data.name})
+            let formData={mail:res.data.email,name:res.data.name}
+            console.log(formData);
+            axios.post('https://mail-merchant.onrender.com/g/login',formData)
               .then((response) => {
                 setLoading(false);
                 Cookies.set('userid',response.data.id);
