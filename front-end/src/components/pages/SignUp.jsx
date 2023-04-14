@@ -72,7 +72,7 @@ const SignUp = ({setLogged}) => {
             console.log(res.data);
             Cookies.set("pic",res.data.picture);
             // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
-            axios.post('https://mail-merchant.onrender.com/signup/google',{mail:res.data.email,name:res.data.name})
+            axios.post('https://mail-merchant.onrender.com/g/signup',{mail:res.data.email,name:res.data.name})
               .then((response) => {
                 setLoading(false)
                 Cookies.set('userid',response.data.id)

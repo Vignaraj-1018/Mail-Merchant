@@ -41,8 +41,8 @@ def signup():
     return {'id':str(res.inserted_id)},201
 
 @cross_origin(supports_credentials=True)
-@app.route("/signup/google",methods=["POST"])
-def signup_google():
+@app.route("/g/signup",methods=["POST"])
+def g_signup():
     data=request.get_json()
     data['password'] = bcrypt.hashpw(data['name'].encode('utf-8'), bcrypt.gensalt())
     user=mycol.find_one({'mail':data['mail']})
@@ -68,8 +68,8 @@ def login():
         return {"success":False,"message":"Login Failed","status_code":401},401
     
 @cross_origin(supports_credentials=True)
-@app.route("/login/google",methods=["POST"])
-def login_google():
+@app.route("/g/login",methods=["POST"])
+def g_login():
     data=request.get_json()
     user=mycol.find_one({'mail':data['mail']})
     if user:
