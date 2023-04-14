@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 import { PropagateLoader } from 'react-spinners';
 import { UilEye } from '@iconscout/react-unicons'
 
+import { useGoogleLogin } from '@react-oauth/google';
+import { google } from '../../assets';
 const SignUp = ({setLogged}) => {
   const [mail,setMail]=useState(null)
   const [name,setName]=useState(null)
@@ -58,10 +60,44 @@ const SignUp = ({setLogged}) => {
     }
   }
 
+  const login = useGoogleLogin({
+    onSuccess: async respose => {
+        try {
+            const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+                headers: {
+                    "Authorization": `Bearer ${respose.access_token}`
+                }
+            })
+
+            console.log(res.data);
+            Cookies.set("pic",res.data.picture);
+            // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
+            axios.post('https://mail-merchant.onrender.com/signup/google',{mail:res.data.email,name:res.data.name})
+              .then((response) => {
+                setLoading(false)
+                Cookies.set('userid',response.data.id)
+                setLogged(true)
+                navigate('/');
+              })
+              .catch((error) => {
+                if (error.response.status==409)
+                {
+                  alert("User Already Registered")
+                }
+                setLoading(false)
+              });
+          } catch (err) {
+              console.log(err)
+
+          }
+
+        }
+      });
+
   return (
-    <div className='flex w-full justify-center items-center flex-col'>
+    <div className='flex w-full justify-center items-center flex-col p-10'>
       <span className='flex text-4xl text-body font-bold p-10'>Sign Up</span>
-      {!loading&&<div className='flex border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body mx-2 sm:px-10'>
+      {!loading&&<div className='flex flex-col justify-center items-center p-5 border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body mx-2 sm:px-10'>
         <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit}>
           <label className='flex text-white font-bold'>Name</label>
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setName(e.target.value)}}/>
@@ -70,16 +106,22 @@ const SignUp = ({setLogged}) => {
           <label className='flex text-white font-bold'>Password</label>
           <div className='flex flex-row justify-end items-center'>
             <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPassword(e.target.value)}}/>
-            <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
+            <UilEye className='flex' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
           </div>
           <label className='flex text-white font-bold'>Confirm Password</label>
           <div className='flex flex-row justify-end items-center'>
             <input type={pwdvisibility?'text':'password'} className='flex w-full outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setPassword2(e.target.value)}}/>
-            <UilEye className='flex absolute ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
+            <UilEye className='flex ' onClick={()=>{setPwdVisibility(!pwdvisibility)}}/>
           </div>
 
           <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Sign Up</button>
         </form>
+        <div className='flex flex-row'>
+          <div className='flex bg-zinc-900 rounded-3xl justify-center items-center w-fit mt-2 mx-3 p-3 hover:scale-105 ease-in-out duration-300 cursor-pointer' onClick={login}>
+              <img alt='google' src={google} className={`w-10 h-10 object-contain bg-white m-auto rounded-xl`}/>
+              <span className='flex pl-3'>Continue with Google</span>
+          </div>
+        </div>
       </div>}
       {loading && 
       <div>

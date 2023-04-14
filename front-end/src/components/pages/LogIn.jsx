@@ -67,13 +67,29 @@ const LogIn = ({setLogged}) => {
 
             console.log(res.data)
             // loginUser({email:res.data.email,pic:res.data.picture});
+            Cookies.set("pic",res.data.picture);
+            // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
+            axios.post('https://mail-merchant.onrender.com/login/google',{mail:res.data.email,name:res.data.name})
+              .then((response) => {
+                setLoading(false);
+                Cookies.set('userid',response.data.id);
+                setLogged(true);
+                navigate('/');
+              })
+              .catch((error) => {
+                if (error.response.status==401)
+                {
+                  alert("Log In Failed");
+                }
+                setLoading(false)
+              });
         } catch (err) {
             console.log(err)
 
         }
 
     }
-});
+  });
 
 
   return (
@@ -94,7 +110,7 @@ const LogIn = ({setLogged}) => {
                 <img alt='google' src={google} className={`w-10 h-10 object-contain bg-white m-auto rounded-xl`}/>
                 <span className='flex pl-3'>Continue with Google</span>
             </div>
-        </div>
+          </div>
           <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>LogIn</button>
         </form>
       </div>}

@@ -41,13 +41,40 @@ def signup():
     return {'id':str(res.inserted_id)},201
 
 @cross_origin(supports_credentials=True)
+@app.route("/signup/google",methods=["POST"])
+def signup():
+    data=request.get_json()
+    data['password'] = bcrypt.hashpw(data['name'].encode('utf-8'), bcrypt.gensalt())
+    user=mycol.find_one({'mail':data['mail']})
+    if user:
+        return {"success":False,"message":"User Already Exist","status_code":409},409
+    else:
+        res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":True})
+
+    return {'id':str(res.inserted_id)},201
+
+@cross_origin(supports_credentials=True)
 @app.route("/login",methods=["POST"])
 def login():
     data=request.get_json()
     user=mycol.find_one({'mail':data['mail']})
     if user:
         if bcrypt.checkpw(data['password'].encode('utf-8'), user['password']):
-            return {'id':str(user['_id'])}
+            return {'id':str(user['_id']),"success":True},200
+        else:
+            return {"success":False,"message":"Wrong Password","status_code":403},403
+            
+    else:
+        return {"success":False,"message":"Login Failed","status_code":401},401
+    
+@cross_origin(supports_credentials=True)
+@app.route("/login/google",methods=["POST"])
+def login():
+    data=request.get_json()
+    user=mycol.find_one({'mail':data['mail']})
+    if user:
+        if bcrypt.checkpw(data['password'].encode('utf-8'), user['name']):
+            return {'id':str(user['_id']),"success":True},200
         else:
             return {"success":False,"message":"Wrong Password","status_code":403},403
             
