@@ -41,7 +41,7 @@ const SignUp = ({setLogged}) => {
         axios.post('https://mail-merchant.onrender.com/signup',formData)
         .then((response) => {
           setLoading(false)
-          Cookies.set('userid',response.data.id)
+          Cookies.set('userid',response.data.id,{expires:1})
           setLogged(true)
           navigate('/');
         })
@@ -70,13 +70,13 @@ const SignUp = ({setLogged}) => {
             })
 
             console.log(res.data);
-            Cookies.set("pic",res.data.picture);
+            Cookies.set("pic",res.data.picture,{expires:1});
             setLoading(true);
             // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
             axios.post('https://mail-merchant.onrender.com/g/signup',{mail:res.data.email,name:res.data.name})
               .then((response) => {
                 setLoading(false)
-                Cookies.set('userid',response.data.id)
+                Cookies.set('userid',response.data.id,{expires:1})
                 setLogged(true)
                 navigate('/');
               })
@@ -98,8 +98,15 @@ const SignUp = ({setLogged}) => {
   return (
     <div className='flex w-full justify-center items-center flex-col p-10'>
       <span className='flex text-4xl text-body font-bold p-10'>Sign Up</span>
-      {!loading&&<div className='flex flex-col justify-center items-center p-5 border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body mx-2 sm:px-10'>
-        <form className='flex gap-4 flex-col p-10' onSubmit={handleSubmit}>
+      {!loading&&<div className='flex flex-col gap-5 justify-center items-center p-5 border-2 border-body border-opacity-50 rounded-2xl shadow-lg shadow-body mx-2 sm:px-10'>
+        <div className='flex flex-row'>
+          <div className='flex bg-zinc-900 rounded-3xl justify-center items-center w-fit mt-2 mx-3 p-3 hover:scale-105 ease-in-out duration-300 cursor-pointer' onClick={login}>
+              <img alt='google' src={google} className={`w-10 h-10 object-contain bg-white m-auto rounded-xl`}/>
+              <span className='flex pl-3 text-body'>Continue with Google</span> 
+          </div>
+        </div>
+        <span className='flex justify-center items-center w-full text-body'>Or</span>
+        <form className='flex gap-4 flex-col p-5' onSubmit={handleSubmit}>
           <label className='flex text-white font-bold'>Name</label>
           <input type={'text'} className='flex outline-none text-white bg-black border-b-2 border-body p-3 border-opacity-50 text-lg' onChange={e=>{setName(e.target.value)}}/>
           <label className='flex text-white font-bold'>Mail</label>
@@ -117,12 +124,6 @@ const SignUp = ({setLogged}) => {
 
           <button type='submit' className='flex m-3 text-white border-2 rounded-full border-body p-3 border-opacity-50 justify-center'>Sign Up</button>
         </form>
-        <div className='flex flex-row'>
-          <div className='flex bg-zinc-900 rounded-3xl justify-center items-center w-fit mt-2 mx-3 p-3 hover:scale-105 ease-in-out duration-300 cursor-pointer' onClick={login}>
-              <img alt='google' src={google} className={`w-10 h-10 object-contain bg-white m-auto rounded-xl`}/>
-              <span className='flex pl-3'>Continue with Google</span>
-          </div>
-        </div>
       </div>}
       {loading && 
       <div>

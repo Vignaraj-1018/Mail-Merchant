@@ -11,7 +11,10 @@ const Navbar = ({logged,setLogged,cookie}) => {
     const navigate=useNavigate();
 
     const [toggle,setToggle]=useState(false)
+
+    const pic=Cookies.get("pic");
     
+    console.log(pic);
     const logOut=()=>{
         Cookies.remove('userid');
         Cookies.remove('pic');
@@ -37,7 +40,8 @@ const Navbar = ({logged,setLogged,cookie}) => {
                 }
                 {logged && 
                     <>
-                        <a href={`/user/${cookie}`}><UilUser/></a>
+                        {!pic&&<a href={`/user/${cookie}`}><UilUser/></a>}
+                        {pic && <a href={`/user/${cookie}`}><img src={pic} className='flex h-10 w-10 rounded-full'/></a>}
                         <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut}>Sign Out</Button>
                     </>
                 }
@@ -63,7 +67,8 @@ const Navbar = ({logged,setLogged,cookie}) => {
                     }
                     {logged && 
                         <>
-                            <a href={`/user/${cookie}`} onClick={()=>{setToggle(false)}}><UilUser/></a>
+                            {!pic&&<a href={`/user/${cookie}`} onClick={()=>{setToggle(false)}}><UilUser/></a>}
+                            {pic && <a href={`/user/${cookie}`} onClick={()=>{setToggle(false)}}><img src={pic} className='flex h-10 w-10 rounded-full'/></a>}
                             <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut} >Sign Out</Button>
                         </>
                     }
