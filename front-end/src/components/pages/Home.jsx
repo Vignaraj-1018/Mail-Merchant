@@ -1,5 +1,5 @@
 import React from 'react'
-import { mailService } from '../../assets'
+import { mail } from '../../assets'
 
 const Home = () => {
   return (
@@ -18,7 +18,7 @@ const Home = () => {
             Our service is designed to be simple and user-friendly. You don't need any special technical knowledge to get started. Just sign up for an account and follow our easy setup instructions.
           </span>
         </span>
-        <img className='flex h-[30rem] sm:w-[30%] brightness-150' src={mailService} /> 
+        <img className='flex h-[30rem] sm:w-[30%] brightness-150' src={mail} /> 
       </div>
 
       <span className='flex flex-col justify-center items-start  leading-10 text-xl font-semibold'>
