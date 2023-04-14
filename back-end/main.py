@@ -42,7 +42,7 @@ def signup():
 
 @cross_origin(supports_credentials=True)
 @app.route("/signup/google",methods=["POST"])
-def signup():
+def signup_google():
     data=request.get_json()
     data['password'] = bcrypt.hashpw(data['name'].encode('utf-8'), bcrypt.gensalt())
     user=mycol.find_one({'mail':data['mail']})
@@ -69,7 +69,7 @@ def login():
     
 @cross_origin(supports_credentials=True)
 @app.route("/login/google",methods=["POST"])
-def login():
+def login_google():
     data=request.get_json()
     user=mycol.find_one({'mail':data['mail']})
     if user:
