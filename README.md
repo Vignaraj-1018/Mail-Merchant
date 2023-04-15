@@ -17,7 +17,8 @@ Mail Merchant is a free email integration API built with Python Flask and MongoD
     1. Navigate to Frontend folder: `cd front-end`
     2. Install the Node Modules: `npm install`
     3. Change the API link in `/src/constants/index.js` to you local API link
-    4. Start the App: `npm run dev`
+    4. Change file name `.env.example` to `.env` and add your credentials.
+    5. Start the App: `npm run dev`
 
 ## Usage
 
