@@ -5,9 +5,10 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { PropagateLoader } from 'react-spinners';
 import { UilEye } from '@iconscout/react-unicons'
-
+import { API } from '../../constants';
 import { useGoogleLogin } from '@react-oauth/google';
 import { google } from '../../assets';
+
 const SignUp = ({setLogged}) => {
   const [mail,setMail]=useState(null)
   const [name,setName]=useState(null)
@@ -38,7 +39,7 @@ const SignUp = ({setLogged}) => {
       if (isValid && password === password2)
       {
         setLoading(true)
-        axios.post('https://mail-merchant.onrender.com/signup',formData)
+        axios.post(`${API}/signup`,formData)
         .then((response) => {
           setLoading(false)
           Cookies.set('userid',response.data.id,{expires:1})
@@ -69,11 +70,11 @@ const SignUp = ({setLogged}) => {
                 }
             })
 
-            console.log(res.data);
+            // console.log(res.data);
             Cookies.set("pic",res.data.picture,{expires:1});
             setLoading(true);
             // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
-            axios.post('https://mail-merchant.onrender.com/g/signup',{mail:res.data.email,name:res.data.name})
+            axios.post(`${API}/g/signup`,{mail:res.data.email,name:res.data.name})
               .then((response) => {
                 setLoading(false)
                 Cookies.set('userid',response.data.id,{expires:1})

@@ -4,6 +4,8 @@ export const navLinks=[
     {id:3,title:'Contact',link:'/contact'},
 ]
 
+export const API='https://mail-merchant.onrender.com'
+
 export const endpointExampleCode=`POST /send_mail/:userid
 
 Input:

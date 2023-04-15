@@ -7,6 +7,8 @@ import {PropagateLoader} from 'react-spinners'
 import { UilEye } from '@iconscout/react-unicons'
 import { google } from '../../assets';
 
+import { API } from '../../constants';
+
 import { useGoogleLogin } from '@react-oauth/google';
 
 const LogIn = ({setLogged}) => {
@@ -35,7 +37,7 @@ const LogIn = ({setLogged}) => {
       if (isValid)
       {
         setLoading(true)
-        axios.post('https://mail-merchant.onrender.com/login',formData)
+        axios.post(`${API}/login`,formData)
         .then((response) => {
           setLoading(false)
           Cookies.set('userid',response.data.id,{expires:1})
@@ -66,15 +68,15 @@ const LogIn = ({setLogged}) => {
                 }
             })
 
-            console.log(res.data)
+            // console.log(res.data)
             // loginUser({email:res.data.email,pic:res.data.picture});
             Cookies.set("pic",res.data.picture,{expires:1});
             setLoading(true);
             // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
             axios.defaults.headers.post['Access-Control-Allow-Origin']='*';
             let formData={mail:res.data.email,name:res.data.name}
-            console.log(formData);
-            axios.post('https://mail-merchant.onrender.com/g/login',formData)
+            // console.log(formData);
+            axios.post(`${API}/g/login`,formData)
               .then((response) => {
                 setLoading(false);
                 Cookies.set('userid',response.data.id,{expires:1});

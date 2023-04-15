@@ -6,6 +6,7 @@ import { UilArrow,UilCopy } from '@iconscout/react-unicons'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
+import { API } from '../../constants'
 
 
 const UserProf = () => {
@@ -17,7 +18,7 @@ const UserProf = () => {
     const [user,setUser]=useState(null);
 
     useEffect(()=>{
-      axios.post(`https://mail-merchant.onrender.com/user/${params.userid}`)
+      axios.post(`${API}/user/${params.userid}`)
       .then(response =>{
         setUser(response.data);
         setLoading(false);
@@ -42,7 +43,7 @@ const UserProf = () => {
       backgroundColor:"#FF6E31"
     };
     const handleCopy=() => {
-      let text=`https://mail-merchant.onrender.com/sendmail/${user._id}`
+      let text=`${API}/sendmail/${user._id}`
       navigator.clipboard.writeText(text)
       toast.success('Code Copied!', {
         position: "top-right",
@@ -59,7 +60,7 @@ const UserProf = () => {
 
     const requestVerification=()=>{
       setLoading(true);
-      axios.post(`https://mail-merchant.onrender.com/mail-verify-request`,{url:window.location.href})
+      axios.post(`${API}/mail-verify-request`,{url:window.location.href})
       .then(response =>{
         setLoading(false);
         setMail(true);
@@ -71,9 +72,9 @@ const UserProf = () => {
       const conf=prompt("Please Enter 'Delete Account Confirm'\nTo delete the account:")
       if (conf==="Delete Account Confirm")
       {
-        axios.post(`https://mail-merchant.onrender.com/closeaccount`,{id:params.userid})
+        axios.post(`${API}/closeaccount`,{id:params.userid})
         .then(response =>{
-          console.log(response.data);
+          // console.log(response.data);
           setLoading(false);
           Cookies.remove('userid');
           alert('Your Account has been successfully deleted');

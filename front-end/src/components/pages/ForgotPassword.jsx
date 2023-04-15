@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import {PropagateLoader} from 'react-spinners'
 import { UilEye } from '@iconscout/react-unicons'
+import { API } from '../../constants';
 
 
 
@@ -41,8 +42,8 @@ const ForgotPassword = ({setLogged}) => {
       if (isValid)
       {
         setLoading(true);
-        axios.post('https://mail-merchant.onrender.com/forgot-password',formData)
-        .then((response) => {console.log(response.data); setLoading(false);})
+        axios.post(`${API}/forgot-password`,formData)
+        .then((response) => { setLoading(false);})
         .catch((error) => {
           console.log('err',error);
           if (error.response.status==401)
@@ -68,8 +69,8 @@ const ForgotPassword = ({setLogged}) => {
       {
         formData={password:formData['password1']}
         setLoading(true)
-        axios.post(`https://mail-merchant.onrender.com/forgot-password/${params['userid']}`,formData)
-        .then((response) => {console.log(response.data);setLoading(false);navigate('/login')})
+        axios.post(`${API}/forgot-password/${params['userid']}`,formData)
+        .then((response) => {setLoading(false);navigate('/login')})
         .catch((error) => {
           console.log('err',error);
           if (error.response.status==401)
