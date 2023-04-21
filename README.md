@@ -1,5 +1,7 @@
 # Mail Merchant
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4f70ef57-c90c-49d7-a3bd-80fa4e40393e/deploy-status)](https://app.netlify.com/sites/mail-merchant/deploys?branch=master)
+
 Mail Merchant is a free email integration API built with Python Flask and MongoDB. Users can create an account, verify their email address, and obtain an API link. The API takes in four fields (name, email, subject, message) using the POST method, and returns a 201 status code once the email is successfully sent.
 
 ## Installation
