@@ -15,10 +15,7 @@ def send_mail(data,user):
     em['From']=data['mail']
     em['To']=user
     em['Subject']=data['subject']
-    body="""Mail from {}
-    Mail: {}
-    Message:
-    {}""".format(data['name'],data['mail'],data['message'])
+    body="""Mail from {}\n\nMail: {}\n\nMessage:\n{}\n\n\nRegards,\nMail Merchant Team""".format(data['name'],data['mail'],data['message'])
     em.set_content(body)
     
     cntxt=ssl.create_default_context()

@@ -37,6 +37,9 @@ def signup():
         return {"success":False,"message":"User Already Exist","status_code":409},409
     else:
         res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":False,"google":False})
+        mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Welcome to Mail Merchant',
+          'message':'\nExplore the Documentation of Mail Merchant to see how it works!\nVerify your email to get started with using the Mail Merchant API!'}
+        send_mail(mail,user=data['mail'])   
 
     return {'id':str(res.inserted_id)},201
 
@@ -50,7 +53,9 @@ def g_signup():
         return {"success":False,"message":"User Already Exist","status_code":409},409
     else:
         res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":True,"google":True})
-
+        mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Welcome to Mail Merchant',
+          'message':'\nExplore the Documentation of Mail Merchant to see how it works!'}
+        send_mail(mail,user=data['mail'])
     return {'id':str(res.inserted_id)},201
 
 @cross_origin(supports_credentials=True)
