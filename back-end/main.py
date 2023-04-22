@@ -128,7 +128,7 @@ def pre_forgot_password():
     url=data['url']
     user=mycol.find_one({'mail':(data['mail'])})
 
-    if user['google']:
+    if user.has_key('google') and user['google']:
         return {"success":False,"message":"Google Account!","status_code":406},406
     if not user:
         return {"success":False,"message":"Invalid Credential, User Not Found","status_code":401},401

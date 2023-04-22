@@ -54,6 +54,10 @@ const ForgotPassword = ({setLogged}) => {
           {
             alert("Failed to Send Mail")
           }
+          else if (error.response.status==406)
+          {
+            alert("Please Continue With Google Login!")
+          }
         });
     }
   }
@@ -80,10 +84,6 @@ const ForgotPassword = ({setLogged}) => {
           else if (error.response.status==500)
           {
             alert("Failed to Change Password")
-          }
-          else if (error.response.status==406)
-          {
-            alert("Please Continue With Google Login!")
           }
         });
     }
