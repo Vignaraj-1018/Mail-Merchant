@@ -36,7 +36,7 @@ def signup():
     if user:
         return {"success":False,"message":"User Already Exist","status_code":409},409
     else:
-        res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":False})
+        res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":False,"google":False})
 
     return {'id':str(res.inserted_id)},201
 
@@ -49,7 +49,7 @@ def g_signup():
     if user:
         return {"success":False,"message":"User Already Exist","status_code":409},409
     else:
-        res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":True})
+        res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":True,"google":True})
 
     return {'id':str(res.inserted_id)},201
 
@@ -128,6 +128,8 @@ def pre_forgot_password():
     url=data['url']
     user=mycol.find_one({'mail':(data['mail'])})
 
+    if user['google']:
+        return {"success":False,"message":"Google Account!","status_code":406},406
     if not user:
         return {"success":False,"message":"Invalid Credential, User Not Found","status_code":401},401
     mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Change Password',
@@ -158,6 +160,8 @@ def pre_mail_verify():
     mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Mail Verification',
           'message':'Here is the Link to Verify your Mail Address:\n{}\nClick to verify the Mail!'.format(url)}
     user=mycol.find_one({'_id':ObjectId(url.split("/")[4])})
+    if user['google']:
+        return {"success":False,"message":"Google Account!","status_code":406},406
     resp=send_mail(mail,user=user['mail'])
     resp=True
     if resp:

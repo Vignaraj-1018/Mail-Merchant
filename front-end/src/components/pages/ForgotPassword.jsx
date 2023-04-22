@@ -81,6 +81,10 @@ const ForgotPassword = ({setLogged}) => {
           {
             alert("Failed to Change Password")
           }
+          else if (error.response.status==406)
+          {
+            alert("Please Continue With Google Login!")
+          }
         });
     }
     else
