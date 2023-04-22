@@ -74,8 +74,8 @@ const LogIn = ({setLogged}) => {
             setLoading(true);
             // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
             axios.defaults.headers.post['Access-Control-Allow-Origin']='*';
-            let formData={mail:res.data.email,name:res.data.name}
-            // console.log(formData);
+            let formData={mail:res.data.email}
+            console.log(formData);
             axios.post(`${API}/g/login`,formData)
               .then((response) => {
                 setLoading(false);
@@ -84,9 +84,9 @@ const LogIn = ({setLogged}) => {
                 navigate('/');
               })
               .catch((error) => {
-                if (error.response.status==401)
+                if (error.response.status==404)
                 {
-                  alert("Log In Failed");
+                  alert("User Not Found\nPlease Sign Up");
                 }
                 setLoading(false)
               });

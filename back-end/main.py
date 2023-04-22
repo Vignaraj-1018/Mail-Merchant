@@ -73,13 +73,9 @@ def g_login():
     data=request.get_json()
     user=mycol.find_one({'mail':data['mail']})
     if user:
-        if bcrypt.checkpw(data['name'].encode('utf-8'), user['password']):
-            return {'id':str(user['_id']),"success":True},200
-        else:
-            return {"success":False,"message":"Wrong Password","status_code":403},403
-            
+        return {'id':str(user['_id']),"success":True},200
     else:
-        return {"success":False,"message":"Login Failed","status_code":401},401
+        return {"success":False,"message":"User Not Found","status_code":404},404
 
 @cross_origin(supports_credentials=True)
 @app.route("/sendmail/<userid>",methods=['POST'])
@@ -118,7 +114,7 @@ def user(userid):
         user["password"] = str(user["password"]) 
         
         return user
-    return {"success":False,"message":"User Found","status_code":401},401
+    return {"success":False,"message":"User not Found","status_code":401},401
     
 
 @cross_origin(supports_credentials=True)

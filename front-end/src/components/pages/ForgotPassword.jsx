@@ -43,7 +43,7 @@ const ForgotPassword = ({setLogged}) => {
       {
         setLoading(true);
         axios.post(`${API}/forgot-password`,formData)
-        .then((response) => { setLoading(false);console.log(response.data);})
+        .then((response) => { setLoading(false);})
         .catch((error) => {
           console.log('err',error);
           if (error.response.status==401)
@@ -58,6 +58,8 @@ const ForgotPassword = ({setLogged}) => {
           {
             alert("Please Continue With Google Login!")
           }
+          setLoading(false);
+          window.open('/login','_self','noopener,noreferrer');
         });
     }
   }
