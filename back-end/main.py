@@ -128,7 +128,7 @@ def pre_forgot_password():
     url=data['url']
     user=mycol.find_one({'mail':(data['mail'])})
 
-    if 'google' in user and user['google']:
+    if user['google']:
         return {"success":False,"message":"Google Account!","status_code":406},406
     if not user:
         return {"success":False,"message":"Invalid Credential, User Not Found","status_code":401},401
@@ -160,7 +160,7 @@ def pre_mail_verify():
     mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Mail Verification',
           'message':'Here is the Link to Verify your Mail Address:\n{}\nClick to verify the Mail!'.format(url)}
     user=mycol.find_one({'_id':ObjectId(url.split("/")[4])})
-    if 'google' in user and user['google']:
+    if user['google']:
         return {"success":False,"message":"Google Account!","status_code":406},406
     resp=send_mail(mail,user=user['mail'])
     resp=True
