@@ -25,7 +25,7 @@ Mail Merchant is a free email integration API built with Python Flask and MongoD
 ## Usage
 
 1. Create an account on the Mail Merchant website using your email address or Google Account.
-2. Verify your email address if not Google Account.
+2. Verify your email address if not **Google Account**.
 3. Log in to your account and go to profile page to obtain your API link.
 4. Use your API link to integrate the Mail Merchant API with your application.
 
