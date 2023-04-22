@@ -74,7 +74,6 @@ const UserProf = () => {
       {
         axios.post(`${API}/closeaccount`,{id:params.userid})
         .then(response =>{
-          // console.log(response.data);
           setLoading(false);
           Cookies.remove('userid');
           alert('Your Account has been successfully deleted');

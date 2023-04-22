@@ -31,13 +31,11 @@ const Contact = () => {
       message:message
     }
     const isValid= await data.isValid(formData);
-    // console.log(isValid);
     if (isValid)
     {
       setLoading(true)
       axios.post(apiUrl,formData)
       .then((response) => {
-        // console.log(response.data);
         setLoading(false)
       })
       .catch((error) => {

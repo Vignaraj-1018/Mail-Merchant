@@ -14,7 +14,6 @@ const Navbar = ({logged,setLogged,cookie}) => {
 
     const pic=Cookies.get("pic");
     
-    // console.log(pic);
     const logOut=()=>{
         Cookies.remove('userid');
         Cookies.remove('pic');

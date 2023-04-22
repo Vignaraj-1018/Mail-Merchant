@@ -70,10 +70,8 @@ const SignUp = ({setLogged}) => {
                 }
             })
 
-            // console.log(res.data);
             Cookies.set("pic",res.data.picture,{expires:1});
             setLoading(true);
-            // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
             axios.post(`${API}/g/signup`,{mail:res.data.email,name:res.data.name})
               .then((response) => {
                 setLoading(false)

@@ -13,7 +13,6 @@ const Verify = () => {
     useEffect(()=>{
       axios.post(`https://mail-merchant.onrender.com/mail-verify-request/${params.userid}`)
       .then(response =>{
-        // console.log(response.data);
         setLoading(false);
         setVerified(true);
       })

@@ -76,7 +76,6 @@ const LogIn = ({setLogged}) => {
             setLoading(true);
             axios.defaults.headers.post['Access-Control-Allow-Origin']='*';
             let formData={mail:res.data.email}
-            console.log(formData);
             axios.post(`${API}/g/login`,formData)
               .then((response) => {
                 setLoading(false);
@@ -88,8 +87,9 @@ const LogIn = ({setLogged}) => {
                 if (error.response.status==404)
                 {
                   alert("User Not Found\nPlease Sign Up");
+                  setLoading(false)
+                  window.open('/signup','_self','noopener,noreferrer');
                 }
-                setLoading(false)
               });
         } catch (err) {
             console.log(err)
