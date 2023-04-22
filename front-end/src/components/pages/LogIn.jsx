@@ -53,6 +53,10 @@ const LogIn = ({setLogged}) => {
           {
             alert("Wrong password")
           }
+          if (error.response.status==406)
+          {
+            alert("Please Continue With Google\nIts a Google Account")
+          }
           setLoading(false)
         });
     }
@@ -68,11 +72,8 @@ const LogIn = ({setLogged}) => {
                 }
             })
 
-            // console.log(res.data)
-            // loginUser({email:res.data.email,pic:res.data.picture});
             Cookies.set("pic",res.data.picture,{expires:1});
             setLoading(true);
-            // loginUser({mail:res.data.email,name:res.data.name,password:res.data.name});
             axios.defaults.headers.post['Access-Control-Allow-Origin']='*';
             let formData={mail:res.data.email}
             console.log(formData);

@@ -59,6 +59,8 @@ def login():
     data=request.get_json()
     user=mycol.find_one({'mail':data['mail']})
     if user:
+        if user['google']:
+            return {"success":False,"message":"Google Account!","status_code":406},406
         if bcrypt.checkpw(data['password'].encode('utf-8'), user['password']):
             return {'id':str(user['_id']),"success":True},200
         else:
