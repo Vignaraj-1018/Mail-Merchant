@@ -39,7 +39,9 @@ def signup():
         res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":False,"google":False})
         mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Welcome to Mail Merchant',
           'message':'\nExplore the Documentation of Mail Merchant to see how it works!\nVerify your email to get started with using the Mail Merchant API!'}
-        send_mail(mail,user=data['mail'])   
+        resp = send_mail(mail,user=data['mail'])
+        if not resp:
+            return {"success":False,"message":"Faied to send Mail","status_code":500},500
 
     return {'id':str(res.inserted_id)},201
 
@@ -55,7 +57,10 @@ def g_signup():
         res=mycol.insert_one({'name':data['name'],'mail':data['mail'],'password':data['password'],'services':[],"verified":True,"google":True})
         mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Welcome to Mail Merchant',
           'message':'\nExplore the Documentation of Mail Merchant to see how it works!'}
-        send_mail(mail,user=data['mail'])
+        resp=send_mail(mail,user=data['mail'])
+
+        if not resp:
+            return {"success":False,"message":"Faied to send Mail","status_code":500},500
     return {'id':str(res.inserted_id)},201
 
 @cross_origin(supports_credentials=True)
@@ -95,6 +100,10 @@ def sendmail(userid):
         resp=send_mail(request.get_json(),user=request.get_json()["mail"])
     else:
         resp=send_mail(request.get_json(),user=user['mail'])
+    
+    if not resp:
+        return {"success":False,"message":"Faied to send Mail","status_code":500},500
+
     filter = {"_id": ObjectId(userid)}
     update = {"$push": {"services": {"From":resp['From'],"To":resp['To'],"name":request.get_json()['name'],"Subject":resp['Subject'],"message":request.get_json()['message']}}}
     result = mycol.update_one(filter, update)
@@ -141,6 +150,8 @@ def pre_forgot_password():
     mail={'name':'Mail Merchant','mail':'mailmercant1018@gmail.com','subject':'Change Password',
           'message':'Link the Link to Continue to Changing the Password: {}/{}'.format(url,str(user['_id']))}
     resp=send_mail(mail,user=user['mail'])
+    if not resp:
+        return {"success":False,"message":"Faied to send Mail","status_code":500},500
     if resp:
         return "Success"
     return "Failure",500 
@@ -169,7 +180,7 @@ def pre_mail_verify():
     if user['google']:
         return {"success":False,"message":"Google Account!","status_code":406},406
     resp=send_mail(mail,user=user['mail'])
-    resp=True
+    
     if resp:
         return {"success":True,"status_code":200},200
     return {"success":False,"message":"Please SignUp with a Valid Email Account!","status_code":500},500

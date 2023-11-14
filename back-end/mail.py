@@ -5,11 +5,19 @@ import smtplib
 from dotenv import load_dotenv
 load_dotenv()
 import os
+import re
 
 sender=os.getenv('SENDER_MAIL')
 sender_pwd=os.getenv('SENDER_PASSWORD')
 
 def send_mail(data,user):
+
+    valid = True
+    regEx = '[a-z0-9]+@[a-z]+\.[a-z]{2,3}';
+
+    if not re.fullmatch(regEx,user):
+        valid = False
+        return 0
 
     em=EmailMessage()
     em['From']=data['mail']
@@ -41,8 +49,11 @@ def send_mail(data,user):
         
     except Exception as e:
         print(e)
-        return 0
+        valid = False
     finally:
         server.quit()
-        return em
+        if valid:
+            return em
+        else:
+            return 0
 
