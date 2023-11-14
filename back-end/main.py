@@ -91,7 +91,10 @@ def sendmail(userid):
     if not user:
         return {"success":False,"message":"Invalid Credential, User Not Found","status_code":401},401
 
-    resp=send_mail(request.get_json(),user=user['mail'])
+    if("toOther" in request.get_json().keys() and request.get_json()['toOther']):
+        resp=send_mail(request.get_json(),user=request.get_json()["mail"])
+    else:
+        resp=send_mail(request.get_json(),user=user['mail'])
     filter = {"_id": ObjectId(userid)}
     update = {"$push": {"services": {"From":resp['From'],"To":resp['To'],"name":request.get_json()['name'],"Subject":resp['Subject'],"message":request.get_json()['message']}}}
     result = mycol.update_one(filter, update)
