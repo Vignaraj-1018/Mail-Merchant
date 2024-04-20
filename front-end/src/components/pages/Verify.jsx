@@ -2,6 +2,7 @@ import React, { useEffect,useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {PropagateLoader} from 'react-spinners'
 import axios from 'axios'
+import { API } from '../../constants'
 
 
 const Verify = () => {
@@ -11,7 +12,7 @@ const Verify = () => {
     const [verified,setVerified] = useState(false)
 
     useEffect(()=>{
-      axios.post(`https://mail-merchant.onrender.com/mail-verify-request/${params.userid}`)
+      axios.post(`${API}/mail-verify-request/${params.userid}`)
       .then(response =>{
         setLoading(false);
         setVerified(true);
