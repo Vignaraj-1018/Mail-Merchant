@@ -108,8 +108,8 @@ const UserProf = () => {
           <div className='flex flex-col w-full justify-center items-center'>
             <span className='flex text-xl text-body'>Your Mail History from the API</span>
             <div className='flex flex-wrap gap-10 justify-center items-center p-10'>
-              {user?.services.map((item)=>(
-                <div className='flex flex-col text-white w-80 p-2 border-body border rounded-lg shadow-body shadow-md'  >
+              {user?.services.map((item,key)=>(
+                <div key={key} className='flex flex-col text-white w-80 p-2 border-body border rounded-lg shadow-body shadow-md'  >
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>From:</span> <span className='flex items-center p-1'> {item.name}</span></span>
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>Mail:</span> <span className='flex items-center p-1'> {item.From}</span></span>
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>Subject:</span> <span className='flex items-center p-1'> {item.Subject}</span></span>

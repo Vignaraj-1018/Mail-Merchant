@@ -6,6 +6,8 @@ export const navLinks=[
 
 export const API='https://helper-api-vignu.el.r.appspot.com/mail_merchant'
 
+export const myHelperBackendAPI = "https://helper-api-vignu.el.r.appspot.com"
+
 export const endpointExampleCode=`POST /send_mail/:userid
 
 Input:
