@@ -2,6 +2,8 @@ import React,{useState,useEffect} from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Contact, Docs, Footer, ForgotPassword, Home, LogIn, Navbar, NotFound, SignUp, UserProf, Verify } from './components'
 import Cookies from 'js-cookie'
+import axios from 'axios'
+import { myHelperBackendAPI } from './constants'
 
 function App() {
   const [logged,setLogged] =useState(false)
@@ -13,6 +15,25 @@ function App() {
     {
       setCookie(ck);
       setLogged(true);
+    }
+    if (window.sessionStorage.getItem("viewAnalyticsSent")){
+      // console.log("old Session");
+    }
+    else{
+      window.sessionStorage.setItem("viewAnalyticsSent",true);
+      // console.log("new Session");
+      let data = {
+        name: "Mail Merchant Website",
+        url:"https://mail-merchant.netlify.app/"
+      }
+      let url = myHelperBackendAPI + "/my_website_analytics/website_view";
+      axios.post(url,data)
+      .then((resp)=>{
+        // console.log(resp);
+      })
+      .catch((err)=>{
+        console.log(err);
+      });
     }
   },[]);
 

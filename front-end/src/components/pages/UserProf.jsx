@@ -101,15 +101,15 @@ const UserProf = () => {
                   <UilCopy color='#ffffff' className='flex h-8 w-8' onClick={handleCopy} />
                 </div>
               </div>
-              <span className='flex text-lg text-gray-400 p-5 w-full truncate' id='link'>https://mail-merchant.onrender.com/sendmail/{user?._id}</span>
+              <span className='flex text-lg text-gray-400 p-5 w-full truncate' id='link'>{API}/sendmail/{user?._id}</span>
               <span className='flex text-sm text-white justify-center'><a href='/docs'>Check Docs to Know how it Works! </a></span>
             </div>
           </div>
           <div className='flex flex-col w-full justify-center items-center'>
             <span className='flex text-xl text-body'>Your Mail History from the API</span>
             <div className='flex flex-wrap gap-10 justify-center items-center p-10'>
-              {user?.services.map((item)=>(
-                <div className='flex flex-col text-white w-80 p-2 border-body border rounded-lg shadow-body shadow-md'  >
+              {user?.services.map((item,key)=>(
+                <div key={key} className='flex flex-col text-white w-80 p-2 border-body border rounded-lg shadow-body shadow-md'  >
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>From:</span> <span className='flex items-center p-1'> {item.name}</span></span>
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>Mail:</span> <span className='flex items-center p-1'> {item.From}</span></span>
                   <span className='flex flex-row p-1 text-justify'><span className='flex text-xl font-semibold'>Subject:</span> <span className='flex items-center p-1'> {item.Subject}</span></span>
