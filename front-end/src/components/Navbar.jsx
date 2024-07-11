@@ -5,12 +5,14 @@ import { navLinks } from '../constants'
 import { UilUser,UilBars,UilTimes } from '@iconscout/react-unicons'
 import { Link,useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import PubSub from 'pubsub-js'
 
-const Navbar = ({logged,setLogged,cookie}) => {
+const Navbar = ({logged,setLogged}) => {
 
     const navigate=useNavigate();
 
-    const [toggle,setToggle]=useState(false)
+    const [toggle,setToggle]=useState(false);
+    const [userId,setUserId]=useState();
 
     const pic=Cookies.get("pic");
     
@@ -22,6 +24,14 @@ const Navbar = ({logged,setLogged,cookie}) => {
         navigate('/login');
     }
 
+    const mySubscriber = function (msg, data) {
+        console.log( msg, data );
+        setUserId(data.data.id);
+    };
+
+    useEffect(()=>{
+        PubSub.subscribe("userLoggedIn",mySubscriber);
+    },[]);
 
   return (
     <div className='flex w-full h-20 px-10 bg-header justify-between items-center z-10'>
@@ -39,8 +49,9 @@ const Navbar = ({logged,setLogged,cookie}) => {
                 }
                 {logged && 
                     <>
-                        {!pic&&<a href={`/user/${cookie}`}><UilUser/></a>}
-                        {pic && <a href={`/user/${cookie}`}><img src={pic} className='flex h-10 w-10 rounded-full'/></a>}
+                        <Link to={`/user/${userId}`}><li className='flex px-7 hover:text-body hover:cursor-pointer'>Profile</li></Link>
+                        {!pic&&<a href={`/user/${userId}`}><UilUser/></a>}
+                        {pic && <a href={`/user/${userId}`}><img src={pic} className='flex h-10 w-10 rounded-full'/></a>}
                         <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut}>Sign Out</Button>
                     </>
                 }
@@ -66,8 +77,9 @@ const Navbar = ({logged,setLogged,cookie}) => {
                     }
                     {logged && 
                         <>
-                            {!pic&&<a href={`/user/${cookie}`} onClick={()=>{setToggle(false)}}><UilUser/></a>}
-                            {pic && <a href={`/user/${cookie}`} onClick={()=>{setToggle(false)}}><img src={pic} className='flex h-10 w-10 rounded-full'/></a>}
+                            <Link to={`/user/${userId}`} onClick={()=>{setToggle(false)}}><li className='flex px-7 hover:cursor-pointer'>Profile</li></Link>
+                            {!pic&&<a href={`/user/${userId}`} onClick={()=>{setToggle(false)}}><UilUser/></a>}
+                            {pic && <a href={`/user/${userId}`} onClick={()=>{setToggle(false)}}><img src={pic} className='flex h-10 w-10 rounded-full'/></a>}
                             <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut} >Sign Out</Button>
                         </>
                     }

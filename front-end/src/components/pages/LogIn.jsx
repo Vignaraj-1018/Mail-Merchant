@@ -10,6 +10,7 @@ import { google } from '../../assets';
 import { API } from '../../constants';
 
 import { useGoogleLogin } from '@react-oauth/google';
+import PubSub from 'pubsub-js'
 
 const LogIn = ({setLogged}) => {
 
@@ -28,6 +29,7 @@ const LogIn = ({setLogged}) => {
 
   const handleSubmit= async (e) => {
     e.preventDefault()
+    console.log("here");
   
       let formData={
         mail:mail,
@@ -40,9 +42,11 @@ const LogIn = ({setLogged}) => {
         axios.post(`${API}/login`,formData)
         .then((response) => {
           setLoading(false)
-          Cookies.set('userid',response.data.id,{expires:1})
+          Cookies.set('userid',response.data.id,{expires:1});
+          console.log(response);
+          PubSub.publish('userLoggedIn',response);
           setLogged(true)
-          window.open('/','_self','noopener,noreferrer');
+          navigate('/');
         })
         .catch((error) => {
           if (error.response.status==401)
@@ -80,6 +84,8 @@ const LogIn = ({setLogged}) => {
               .then((response) => {
                 setLoading(false);
                 Cookies.set('userid',response.data.id,{expires:1});
+                console.log(response);
+                PubSub.publish('userLoggedIn',response);
                 setLogged(true);
                 navigate('/');
               })
