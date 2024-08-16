@@ -1,0 +1,6 @@
+runtime: python312
+
+handlers:
+- url: /.*
+  script: main.app
+  secure: always
