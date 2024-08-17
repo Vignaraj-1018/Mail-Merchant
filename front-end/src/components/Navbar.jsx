@@ -1,37 +1,44 @@
 import { Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import logo from '../assets/logo.png'
 import { navLinks } from '../constants'
 import { UilUser,UilBars,UilTimes } from '@iconscout/react-unicons'
 import { Link,useNavigate } from 'react-router-dom'
-import Cookies from 'js-cookie'
 import PubSub from 'pubsub-js'
+import { resetData } from '../redux/DataSlice';
 
 const Navbar = ({logged,setLogged}) => {
 
     const navigate=useNavigate();
 
-    const [toggle,setToggle]=useState(false);
-    const [userId,setUserId]=useState();
+    const user = useSelector((state) => state.user);
 
-    const pic=Cookies.get("pic");
+    const [toggle,setToggle]=useState(false);
+
+    const pic=sessionStorage.getItem("pic");
     
+    const dispatch = useDispatch();
+
     const logOut=()=>{
-        Cookies.remove('userid');
-        Cookies.remove('pic');
+        sessionStorage.removeItem('userid');
+        sessionStorage.removeItem('pic');
+        dispatch(resetData());
         setLogged(false);
         setToggle(false);
         navigate('/login');
     }
 
-    const mySubscriber = function (msg, data) {
-        console.log( msg, data );
-        setUserId(data.data.id);
-    };
+    // const mySubscriber = function (msg, data) {
+    //     console.log( msg, data );
+    //     setUserId(data.data.id);
+    // };
 
     useEffect(()=>{
-        PubSub.subscribe("userLoggedIn",mySubscriber);
+        // PubSub.subscribe("userLoggedIn",mySubscriber);
     },[]);
+
+    // console.log(user);
 
   return (
     <div className='flex w-full h-20 px-10 bg-header justify-between items-center z-10'>
@@ -49,9 +56,9 @@ const Navbar = ({logged,setLogged}) => {
                 }
                 {logged && 
                     <>
-                        <Link to={`/user/${userId}`}><li className='flex px-7 hover:text-body hover:cursor-pointer'>Profile</li></Link>
-                        {!pic&&<a href={`/user/${userId}`}><UilUser/></a>}
-                        {pic && <a href={`/user/${userId}`}><img src={pic} className='flex h-10 w-10 rounded-full'/></a>}
+                        <Link to={`/user`}><li className='flex px-7 hover:text-body hover:cursor-pointer'>Profile</li></Link>
+                        {!pic&&<Link to={`/user`}><UilUser/></Link>}
+                        {pic && <Link to={`/user`}><img src={pic} className='flex h-10 w-10 rounded-full'/></Link>}
                         <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut}>Sign Out</Button>
                     </>
                 }
@@ -77,9 +84,9 @@ const Navbar = ({logged,setLogged}) => {
                     }
                     {logged && 
                         <>
-                            <Link to={`/user/${userId}`} onClick={()=>{setToggle(false)}}><li className='flex px-7 hover:cursor-pointer'>Profile</li></Link>
-                            {!pic&&<a href={`/user/${userId}`} onClick={()=>{setToggle(false)}}><UilUser/></a>}
-                            {pic && <a href={`/user/${userId}`} onClick={()=>{setToggle(false)}}><img src={pic} className='flex h-10 w-10 rounded-full'/></a>}
+                            <Link to={`/user`} onClick={()=>{setToggle(false)}}><li className='flex px-7 hover:cursor-pointer'>Profile</li></Link>
+                            {!pic&&<Link to={`/user`} onClick={()=>{setToggle(false)}}><UilUser/></Link>}
+                            {pic && <Link to={`/user`} onClick={()=>{setToggle(false)}}><img src={pic} className='flex h-10 w-10 rounded-full'/></Link>}
                             <Button varient='outline' className='flex' sx={{color:'#ffffff', ":hover":{backgroundColor:"#FF6E31"}}} onClick={logOut} >Sign Out</Button>
                         </>
                     }

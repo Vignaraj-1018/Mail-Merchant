@@ -1,20 +1,21 @@
 import React,{useState,useEffect} from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
 import { Contact, Docs, Footer, ForgotPassword, Home, LogIn, Navbar, NotFound, SignUp, UserProf, Verify } from './components'
-import Cookies from 'js-cookie'
 import axios from 'axios'
 import { myHelperBackendAPI } from './constants'
+import { setUserId } from './redux/DataSlice';
 
 function App() {
   const [logged,setLogged] =useState(false)
-  const [cookie,setCookie] = useState(null)
+  const dispatch = useDispatch();
 
   useEffect(()=>{
-    let ck=Cookies.get("userid")
+    let ck=sessionStorage.getItem("userid")
     if (ck)
     {
-      setCookie(ck);
       setLogged(true);
+      dispatch(setUserId(ck));
     }
     if (window.sessionStorage.getItem("viewAnalyticsSent")){
       // console.log("old Session");
@@ -40,7 +41,7 @@ function App() {
   return (
     <div className="flex flex-col h-screen bg-header overflow-y-auto justify-between">
       <div className='flex fixed w-full z-20'> 
-        <Navbar className='flex' logged={logged} setLogged={setLogged} cookie={cookie}/>
+        <Navbar className='flex' logged={logged} setLogged={setLogged}/>
       </div>
       <div className='flex text-white mt-20 px-5'>
         <Routes>
@@ -49,7 +50,7 @@ function App() {
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/login' element={<LogIn setLogged={setLogged}/>}/>
           <Route path='/signup' element={<SignUp setLogged={setLogged}/>}/>
-          <Route path='/user/:userid' element={<UserProf/>}/>
+          <Route path='/user' element={<UserProf/>}/>
           <Route path='/forgot-password' element={<ForgotPassword/>}/>
           <Route path='/forgot-password/:userid' element={<ForgotPassword/>}/>
           <Route path='/user/:userid/mail-verify' element={<Verify/>}/>

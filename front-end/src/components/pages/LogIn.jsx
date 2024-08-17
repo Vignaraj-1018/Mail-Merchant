@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import * as yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import {PropagateLoader} from 'react-spinners'
 import { UilEye } from '@iconscout/react-unicons'
 import { google } from '../../assets';
@@ -11,6 +10,8 @@ import { API } from '../../constants';
 
 import { useGoogleLogin } from '@react-oauth/google';
 import PubSub from 'pubsub-js'
+import { useDispatch } from 'react-redux';
+import { setUserId } from '../../redux/DataSlice';
 
 const LogIn = ({setLogged}) => {
 
@@ -22,6 +23,8 @@ const LogIn = ({setLogged}) => {
 
   const navigate=useNavigate();
 
+  const dispatch = useDispatch();
+
   const data=yup.object().shape({
     mail:yup.string().email().required(),
     password:yup.string().required()
@@ -29,7 +32,7 @@ const LogIn = ({setLogged}) => {
 
   const handleSubmit= async (e) => {
     e.preventDefault()
-    console.log("here");
+    // console.log("here");
   
       let formData={
         mail:mail,
@@ -42,9 +45,10 @@ const LogIn = ({setLogged}) => {
         axios.post(`${API}/login`,formData)
         .then((response) => {
           setLoading(false)
-          Cookies.set('userid',response.data.id,{expires:1});
-          console.log(response);
+          sessionStorage.setItem('userid',response.data.id,{expires:1});
+          // console.log(response);
           PubSub.publish('userLoggedIn',response);
+          dispatch(setUserId(response.data.id))
           setLogged(true)
           navigate('/');
         })
@@ -76,16 +80,17 @@ const LogIn = ({setLogged}) => {
                 }
             })
 
-            Cookies.set("pic",res.data.picture,{expires:1});
+            sessionStorage.setItem("pic",res.data.picture,{expires:1});
             setLoading(true);
             axios.defaults.headers.post['Access-Control-Allow-Origin']='*';
             let formData={mail:res.data.email}
             axios.post(`${API}/g/login`,formData)
               .then((response) => {
                 setLoading(false);
-                Cookies.set('userid',response.data.id,{expires:1});
-                console.log(response);
+                sessionStorage.setItem('userid',response.data.id,{expires:1});
+                // console.log(response);
                 PubSub.publish('userLoggedIn',response);
+                dispatch(setUserId(response.data.id))
                 setLogged(true);
                 navigate('/');
               })

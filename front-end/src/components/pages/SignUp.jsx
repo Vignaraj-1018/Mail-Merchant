@@ -2,7 +2,6 @@ import React,{useState} from 'react'
 import * as yup from 'yup'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { PropagateLoader } from 'react-spinners';
 import { UilEye } from '@iconscout/react-unicons'
 import { API } from '../../constants';
@@ -42,7 +41,7 @@ const SignUp = ({setLogged}) => {
         axios.post(`${API}/signup`,formData)
         .then((response) => {
           setLoading(false)
-          Cookies.set('userid',response.data.id,{expires:1})
+          sessionStorage.setItem('userid',response.data.id,{expires:1})
           setLogged(true)
           navigate('/');
         })
@@ -70,12 +69,12 @@ const SignUp = ({setLogged}) => {
                 }
             })
 
-            Cookies.set("pic",res.data.picture,{expires:1});
+            sessionStorage.setItem("pic",res.data.picture,{expires:1});
             setLoading(true);
             axios.post(`${API}/g/signup`,{mail:res.data.email,name:res.data.name})
               .then((response) => {
                 setLoading(false)
-                Cookies.set('userid',response.data.id,{expires:1})
+                sessionStorage.setItem('userid',response.data.id,{expires:1})
                 setLogged(true)
                 navigate('/');
               })

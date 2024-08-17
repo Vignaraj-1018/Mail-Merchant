@@ -1,24 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 import {PropagateLoader} from 'react-spinners'
 import { UilArrow,UilCopy } from '@iconscout/react-unicons'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'js-cookie';
 import { API } from '../../constants'
 
 
 const UserProf = () => {
-    const params = useParams()
     const [loading,setLoading]=useState(true)
     const [verified,setVerified] = useState(true)
     const [mail,setMail] = useState(false)
 
     const [user,setUser]=useState(null);
 
-    useEffect(()=>{
-      axios.post(`${API}/user/${params.userid}`)
+    const userId = useSelector((state) => state.user.userId);
+
+    const dispatch = useDispatch();
+    
+
+    const getUserDetails = () => {
+      axios.post(`${API}/user/${userId}`)
       .then(response =>{
         setUser(response.data);
         setLoading(false);
@@ -33,15 +36,25 @@ const UserProf = () => {
         else
         {
           alert("Error Occured!");
-          // Cookies.remove("userid");
           window.open("/","_self","noopener,noreferer");
           setLoading(false);
         }
       });
-    },[])
+    }
+
+    
+
+    useEffect(()=>{
+      if (userId){
+        getUserDetails();
+      }
+
+    }, [userId])
+
     const customStyle = {
       backgroundColor:"#FF6E31"
     };
+    
     const handleCopy=() => {
       let text=`${API}/sendmail/${user._id}`
       navigator.clipboard.writeText(text)
@@ -72,10 +85,11 @@ const UserProf = () => {
       const conf=prompt("Please Enter 'Delete Account Confirm'\nTo delete the account:")
       if (conf==="Delete Account Confirm")
       {
-        axios.post(`${API}/closeaccount`,{id:params.userid})
+        axios.post(`${API}/closeaccount`,{id:userId})
         .then(response =>{
           setLoading(false);
-          Cookies.remove('userid');
+          sessionStorage.removeItem('userid');
+          dispatch(resetData());
           alert('Your Account has been successfully deleted');
           window.open("/login","_self","noopener,noreferer");
         })
