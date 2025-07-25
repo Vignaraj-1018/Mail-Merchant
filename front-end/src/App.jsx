@@ -25,7 +25,7 @@ function App() {
       // console.log("new Session");
       let data = {
         name: "Mail Merchant Website",
-        url:"https://mail-merchant.netlify.app/"
+        url:"https://mail-merchant.vignaraj.in/"
       }
       let url = myHelperBackendAPI + "/my_website_analytics/website_view";
       axios.post(url,data)
