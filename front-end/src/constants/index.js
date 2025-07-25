@@ -4,9 +4,9 @@ export const navLinks=[
     {id:3,title:'Contact',link:'/contact'},
 ]
 
-export const API='https://mail-merchant-10.el.r.appspot.com'
+export const API='https://api-mail-merchant.vignaraj.in'
 
-export const myHelperBackendAPI = "https://helper-api-vignu.el.r.appspot.com"
+export const myHelperBackendAPI = "https://api.vignaraj.in"
 
 export const endpointExampleCode=`POST /send_mail/:userid
 
